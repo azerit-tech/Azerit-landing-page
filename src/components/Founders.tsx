@@ -21,7 +21,7 @@ export function Founders() {
       <div className="member">
         <img src={jacquesPhoto} alt="Jacques Mougeot" width="84" height="84" loading="lazy" />
         <div className="name">Jacques Mougeot</div>
-        <div className="bio">Co-founder. Centrale engineer, computer science research</div>
+        <div className="bio">Co-founder. Centrale engineer, computer science research.</div>
         <div className="links">
           <a href={FOUNDERS[1].linkedin} target="_blank" rel="noreferrer">
             linkedin
