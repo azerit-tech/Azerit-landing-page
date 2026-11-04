@@ -1,0 +1,21 @@
+<!-- The share image (public/og.png, 1200x630): the hero picture and its title. Render with
+     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars --window-size=1200,630 --virtual-time-budget=8000 --screenshot=public/og.png file://$PWD/scripts/og.html
+     then bump ?v= on og:image and twitter:image in index.html so messengers refetch it. -->
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Newsreader:ital,opsz,wght@0,6..72,600;1,6..72,600&display=block" rel="stylesheet">
+<style>
+html,body{margin:0;width:1200px;height:630px;overflow:hidden;background:#fff}
+.stage{position:relative;width:1200px;height:630px;overflow:hidden}
+.stage img{position:absolute;left:50%;top:-8px;width:1320px;transform:translateX(-50%);display:block}
+.stage{background:rgb(212,224,192)}
+.shade{position:absolute;inset:0;background:linear-gradient(to top,rgb(212,224,192) 0%,rgb(212,224,192) 14%,rgba(212,224,192,.8) 22%,rgba(212,224,192,.35) 30%,rgba(212,224,192,0) 38%)}
+.logo{position:absolute;left:56px;top:40px;display:flex;align-items:center;gap:9px;font:500 24px "JetBrains Mono",monospace;color:#1f2328;letter-spacing:-.01em}
+h1{position:absolute;left:56px;bottom:48px;margin:0;max-width:760px;font-family:"Newsreader",Georgia,serif;font-weight:600;font-variation-settings:"opsz" 72;font-size:54px;line-height:1.02;letter-spacing:-.02em;color:#1f2328}
+h1 em{font-style:italic;color:#115e59}
+.sub{position:absolute;right:56px;bottom:60px;max-width:340px;margin:0;font:500 17px/1.45 "JetBrains Mono",monospace;color:#1f2328;text-align:right}
+</style></head><body><div class="stage">
+<img src="../public/hero/loop-poster-2880.jpg">
+<div class="shade"></div>
+<div class="logo"><svg width="22" height="25" viewBox="0 0 104 120" fill="none"><defs><linearGradient id="l" x1="30" y1="4" x2="30" y2="106" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#dde27d"/><stop offset="1" stop-color="#4e9a86"/></linearGradient><linearGradient id="r" x1="70" y1="8" x2="70" y2="116" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#93dbcf"/><stop offset="1" stop-color="#3a5a72"/></linearGradient></defs><path d="M52 8 L14 50 L37 102 Z" fill="url(#l)" stroke="url(#l)" stroke-width="9" stroke-linejoin="round"/><path d="M63 10 L92 42 L85 80 L47 112 Z" fill="url(#r)" stroke="url(#r)" stroke-width="9" stroke-linejoin="round"/></svg>azerit</div>
+<h1>A company is the people who build it. We find <em>yours</em>.</h1>
+</div></body></html>
