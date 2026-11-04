@@ -265,8 +265,11 @@ button {
   /* how far the picture stands above the stage's foot: the campus sits
      high, the sage runs under it */
   --hero-lift: 112px;
-  /* the stage starts at the top of the page, under the glass bar (48px) */
-  min-height: calc(min(calc((100vh - 64px) * 0.82), 680px) + var(--hero-floor) + 48px);
+  /* the stage starts at the top of the page, under the glass bar (48px).
+     On a wide screen (1920, 2560) the picture is taller than the viewport
+     rule allows and object-fit would cut the roofs: the stage grows with
+     the width instead, capped under the viewport (2026-11-04) */
+  min-height: calc(max(min(calc((100vh - 64px) * 0.82), 680px), min(40vw, calc(100vh - 140px))) + var(--hero-floor) + 48px);
   display: flex;
   align-items: flex-end;
   background: var(--hero-tint);
@@ -384,37 +387,64 @@ button {
   outline: 2px solid var(--text);
   outline-offset: 4px;
 }
+/* phones and tablets, lemlist's way (2026-11-04): the picture is a band at
+   the top of the page, cropped on the central building and its plaza, and
+   melts into the sage; the words come under it, never written over the
+   campus; the two buttons stack, full width. Nothing depends on the
+   viewport's height any more, so a short landscape window gets the same
+   hero as a tall phone */
 @media (max-width: 900px) {
   .hero-stage {
     --hero-floor: 0px;
     --hero-lift: 0px;
-    min-height: calc(min(76vh, 660px) + 48px);
+    --hero-band: clamp(240px, 64vw, 440px);
+    display: block;
+    min-height: 0;
   }
   .hero-stage-img {
-    /* keep the main building in view when the frame goes tall */
-    object-position: 54% bottom;
+    inset: 0 0 auto 0;
+    height: var(--hero-band);
+    object-position: 50% 62%;
+  }
+  .hero-stage-shade {
+    top: calc(var(--hero-band) - 110px);
+    bottom: auto;
+    height: 110px;
+    background: linear-gradient(to top, rgb(var(--hero-tint-rgb)) 0%, rgba(var(--hero-tint-rgb), 0.85) 30%, rgba(var(--hero-tint-rgb), 0) 100%);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 25%, transparent 100%);
+    mask-image: linear-gradient(to top, #000 0%, #000 25%, transparent 100%);
   }
   .hero-stage-text {
     flex-direction: column;
     align-items: stretch;
-    gap: 22px;
-    padding: 100px 24px 36px;
+    gap: 18px;
+    padding: calc(var(--hero-band) + 6px) 24px 36px;
+  }
+  .hero-stage h1 {
+    font-size: clamp(34px, 9.4vw, 52px);
   }
   .hero-stage h1,
   .hero-stage-side {
     max-width: 100%;
-  }
-  .hero-stage-shade {
-    background: linear-gradient(to top, rgb(var(--hero-tint-rgb)) 0%, rgb(var(--hero-tint-rgb)) 40%, rgba(var(--hero-tint-rgb), 0.6) 54%, rgba(var(--hero-tint-rgb), 0) 66%);
-    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 50%, transparent 66%);
-    mask-image: linear-gradient(to top, #000 0%, #000 50%, transparent 66%);
   }
   .hero-stage .sub {
     font-size: 16.5px;
     margin-bottom: 18px;
   }
   .hero-cta {
+    flex-direction: column;
+    align-items: stretch;
     gap: 10px;
+  }
+  .btn-hero,
+  .btn-hero-outline {
+    width: 100%;
+  }
+}
+@media (max-width: 560px) {
+  .hero-stage-text {
+    padding-left: 18px;
+    padding-right: 18px;
   }
 }
 
@@ -1462,6 +1492,21 @@ button {
     box-shadow: none;
   }
 }
+/* a phone: the strip would be a finger high; a 16:9 crop keeps the four
+   islands readable, the steps go in one column */
+@media (max-width: 600px) {
+  .how-pic {
+    aspect-ratio: 16 / 9;
+  }
+  .how-pic-img {
+    object-position: center 40%;
+  }
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+    padding: 4px 18px 28px;
+  }
+}
 
 /* ---- the people : the kinds of engineers we find ----
    (components/People) four figures of the voxel world on their islands,
@@ -1777,10 +1822,20 @@ button {
   }
   .hire-days {
     grid-template-columns: 1fr;
-    margin-top: 24px;
+    margin-top: 20px;
   }
   .hire-days li {
-    padding: 20px 4px;
+    display: grid;
+    grid-template-columns: 78px minmax(0, 1fr);
+    column-gap: 14px;
+    align-items: baseline;
+    padding: 14px 4px;
+  }
+  .hire-days b {
+    font-size: 22px;
+  }
+  .hire-days p {
+    margin-top: 0;
   }
   .hire-days li + li {
     border-left: none;
@@ -1990,7 +2045,9 @@ button {
 }
 @media (max-width: 800px) {
   .cta-link {
-    padding: 28px 0;
+    padding: 28px 16px;
+    text-align: center;
+    line-height: 1.5;
   }
 }
 
@@ -2479,11 +2536,22 @@ button {
 }
 .about-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 40px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
+  gap: 48px;
   align-items: center;
+  justify-content: space-between;
   padding-top: 40px;
   padding-bottom: 16px;
+}
+/* the two of us reviewing code, on their island, floating like the
+   landing's people */
+.about-hero-pic {
+  display: block;
+  width: 100%;
+  max-width: 460px;
+  height: auto;
+  justify-self: end;
+  animation: pp-float 6s ease-in-out infinite;
 }
 .about-hero h1 {
   font-family: var(--font-serif);
@@ -2502,16 +2570,6 @@ button {
   line-height: 1.6;
   color: var(--text-dim);
   max-width: 480px;
-}
-/* the arm picking a card, over the hero's dot grid fading at the edges */
-.about-hero-visual {
-  position: relative;
-}
-.about-hero-visual::before {
-  content: "";
-  position: absolute;
-  inset: -6% -4%;
-  pointer-events: none;
 }
 
 /* the three beats as three columns under a dashed rule */
@@ -2547,25 +2605,33 @@ button {
   padding-bottom: 96px;
   border-top: 1px dashed var(--border);
 }
+.about-team h2,
+.about-contact h2 {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 18px;
+}
 .about-team .team-grid {
   flex-direction: column;
   align-items: stretch;
-  gap: 22px;
-  margin-top: 6px;
+  gap: 26px;
+  margin-top: 0;
 }
 .about-team .member {
   display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-columns: 84px minmax(0, 1fr);
   grid-template-rows: auto auto auto;
-  column-gap: 18px;
-  row-gap: 2px;
+  column-gap: 20px;
+  row-gap: 3px;
   align-items: center;
   text-align: left;
 }
 .about-team .member img {
   grid-row: 1 / 4;
-  width: 56px;
-  height: 56px;
+  width: 84px;
+  height: 84px;
   margin: 0;
 }
 .about-team .member .bio {
@@ -3297,6 +3363,10 @@ a:hover > .headline {
   }
   .about-hero .lede {
     font-size: 16.5px;
+  }
+  .about-hero-pic {
+    max-width: 280px;
+    justify-self: center;
   }
   .about-beats,
   .about-foot {
