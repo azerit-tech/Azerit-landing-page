@@ -458,18 +458,6 @@ button {
   position: relative;
   z-index: 1;
 }
-.gh-bg {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  color: var(--green);
-  mask-image: linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent);
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 6%, #000 94%, transparent);
-}
-.gh-bg svg {
-  position: absolute;
-}
 
 /* ---- contribution-grid backdrop (pricing page) ---- */
 .contrib-bg {
@@ -556,142 +544,6 @@ button {
   }
 }
 
-/* ---- interactive dot-grid backdrop (hero title section only) ---- */
-.hero-band {
-  position: relative;
-  /* Contain the oversized globe locally so it cannot widen the document. */
-  overflow-x: clip;
-  --dot-gap: 24px;
-}
-.hero-band > .hero {
-  position: relative;
-  z-index: 1; /* hero content sits above the grid */
-}
-.dot-grid {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  /* no dots any more: plain page */
-}
-
-/* ---- hero : copy + CTA left, the robot arm right ---- */
-.hero {
-  /* narrower than the panels below so the copy and the arm sit toward the
-     middle of the screen instead of hugging the viewport edges */
-  max-width: 1260px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-  padding: 72px 32px 48px;
-}
-.hero-copy {
-  flex: 1.2 1 0;
-  min-width: 0;
-  max-width: 640px;
-}
-.hero-visual {
-  flex: 1 1 0;
-  align-self: stretch;
-  min-width: 0;
-  min-height: 360px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-/* the building going up (three.js canvas injected by BuildingScene): a
-   compact scene on the page itself, its shadow cast on the dot grid, no
-   scenery */
-.hero-building {
-  position: relative;
-  width: 100%;
-  max-width: 520px;
-  aspect-ratio: 1;
-  flex-shrink: 0;
-}
-.hero-building canvas {
-  position: relative;
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-/* the robot arm picking the one who fits (three.js canvas injected by
-   HeroPicker), now on the about page */
-.hero-picker {
-  position: relative;
-  width: 100%;
-  max-width: 540px;
-  aspect-ratio: 1.12;
-  flex-shrink: 0;
-  margin: 0 auto;
-}
-.hero-picker canvas {
-  position: relative;
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-@media (max-width: 800px) {
-  .hero {
-    flex-direction: column;
-    align-items: stretch; /* column flex: stretch = children fill width & wrap.
-                             flex-start sized them to content width -> overflow. */
-    gap: 12px;
-    padding: 36px 24px 24px;
-  }
-  .hero-copy {
-    max-width: 100%;
-    order: 0;
-  }
-  .hero-visual {
-    order: 1;
-    flex: none;
-    min-height: 0;
-    justify-content: center;
-  }
-  .hero-building {
-    width: min(84vw, 360px);
-    margin: 0 auto;
-  }
-  .hero .btn-try {
-    align-self: flex-start; /* keep the CTA at its natural width, left-aligned */
-  }
-  .hero h1,
-  .hero .sub {
-    max-width: 100%; /* don't let the desktop max-widths force horizontal overflow */
-  }
-  .hero h1 {
-    margin-bottom: 16px;
-  }
-}
-.hero h1 {
-  font-family: var(--font-serif);
-  font-size: clamp(40px, 5vw, 58px);
-  font-weight: 600;
-  font-variation-settings: "opsz" 60;
-  letter-spacing: -0.02em;
-  line-height: 1.06;
-  max-width: 720px;
-  margin: 0 0 20px;
-}
-.hero h1 em {
-  font-style: italic;
-  color: var(--green);
-}
-.hero .sub {
-  font-size: 18.5px;
-  color: var(--text);
-  /* Soften the grid behind the copy, including the cursor-highlighted dots. */
-  background: rgba(255, 255, 255, 0.94);
-  box-shadow: 0 0 18px 10px rgba(255, 255, 255, 0.94);
-  border-radius: 4px;
-  max-width: 520px;
-  margin: 0 0 28px;
-}
-.hero .btn-try {
-  align-self: flex-start;
-}
 .hero-cta {
   display: flex;
   align-items: center;
@@ -947,31 +799,6 @@ button {
   outline: 2px solid var(--green);
   outline-offset: 4px;
 }
-/* Quiet supporting mention below the actions. */
-.gh-users {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 18px;
-  font-family: var(--font-mono);
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--text-dim);
-  transition: color 0.12s ease;
-}
-.gh-users:hover {
-  color: var(--green);
-}
-.gh-users-num {
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-}
-.gh-users-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-}
 
 /* ---- GitHub-style cards : flat white panels on the tinted cell ---- */
 .gh-card {
@@ -1039,137 +866,6 @@ button {
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text-dim);
-}
-
-/* ---- demo window : the real app in a browser frame, lifted off the dots ---- */
-/* browser window: a slim title bar with the app's address, a hairline ring
-   and a deep, slightly teal shadow so the demo lifts off the page without a
-   plate behind it */
-.demo-preview {
-  display: none;
-}
-.demo-dialog {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100dvh;
-  max-width: none;
-  max-height: none;
-  margin: 0;
-  padding: 20px;
-  border: 0;
-  background: var(--bg);
-  color: var(--text);
-}
-.demo-dialog::backdrop {
-  background: rgba(255, 255, 255, 0.9);
-}
-.demo-dialog[open] {
-  display: flex;
-  flex-direction: column;
-}
-.demo-dialog-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-}
-.demo-dialog h2 {
-  font-size: 18px;
-}
-.demo-close {
-  min-height: 44px;
-  padding: 8px 14px;
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  background: transparent;
-  color: var(--text);
-}
-.demo-dialog-body {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.demo-dialog-player {
-  width: min(100%, calc((100dvh - 120px) * 1920 / 990));
-}
-.demo-orientation-hint {
-  text-align: center;
-  font-size: 13px;
-  color: var(--text-dim);
-}
-@media (orientation: landscape) {
-  .demo-orientation-hint {
-    display: none;
-  }
-}
-@media (max-width: 800px) {
-  /* the mobile preview card draws its own frame */
-  .demo-inline {
-    display: none;
-  }
-  .demo-preview {
-    display: block;
-    padding: 22px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background: var(--bg);
-    color: var(--text);
-  }
-  .demo-preview-label,
-  .demo-preview-role {
-    color: var(--text-dim);
-    font-size: 12px;
-  }
-  .demo-preview-label {
-    font-family: var(--font-mono);
-    color: var(--green);
-  }
-  .demo-preview h2 {
-    margin: 8px 0 4px;
-    font-size: 22px;
-    line-height: 1.3;
-  }
-  .demo-preview-candidate {
-    margin: 20px 0;
-    padding: 16px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    background: var(--bg-soft);
-    box-shadow: inset 2px 0 0 var(--green);
-  }
-  .demo-preview-person {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-  .demo-preview-score {
-    color: var(--green);
-    font-family: var(--font-mono);
-    font-size: 12px;
-  }
-  .demo-preview-candidate p {
-    margin-top: 12px;
-    font-size: 14px;
-    line-height: 1.6;
-  }
-  .demo-preview-repo {
-    display: block;
-    margin-top: 12px;
-    color: var(--blue);
-    font-family: var(--font-mono);
-    font-size: 12px;
-    overflow-wrap: anywhere;
-  }
-  .demo-preview .btn-try {
-    width: 100%;
-    padding: 14px 12px;
-    font-size: 14px;
-  }
 }
 
 /* ---- section bands ---- */
@@ -2213,7 +1909,7 @@ button {
 
 /* ---- pricing page ---- */
 .pricing-wrap {
-  position: relative; /* sit above the GitHub-logo backdrop (.gh-bg, absolute) */
+  position: relative; /* sit above the contribution-grid backdrop (.contrib-bg, absolute) */
   z-index: 1;
   max-width: 880px;
   margin: 0 auto;
