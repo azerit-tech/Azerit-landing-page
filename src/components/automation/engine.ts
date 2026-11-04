@@ -763,7 +763,7 @@ export function initAutomation(container: HTMLElement): () => void {
     }
   });
   // the sign on the tallest tower
-  const sourceSign = new THREE.Mesh(keep(new THREE.PlaneGeometry(1.0, 0.25)), stencil("[ github ]", 56, 512, 128, "#4f8a78"));
+  const sourceSign = new THREE.Mesh(keep(new THREE.PlaneGeometry(1.0, 0.25)), stencil("github", 56, 512, 128, "#4f8a78"));
   sourceSign.position.set(REPOS[0].x, BELTS[0].top + 1.15, REPO_FRONT + 0.004);
   world.add(sourceSign);
   // the radar on its roof
@@ -1800,14 +1800,11 @@ export function initAutomation(container: HTMLElement): () => void {
     if (mat instanceof THREE.MeshBasicMaterial) mat.toneMapped = false;
   });
 
-  // ---- labels: the site's [ tags ], pinned over the towers and the
-  // pedestal. The four stations are named by the step cards in a row under
-  // the machine instead, each tied to its station by a leader line drawn
-  // below ----------------------------------------------------------------------
-  const labelDefs: { text: string; at: THREE.Vector3 }[] = [
-    { text: "github repositories", at: new THREE.Vector3(REPOS[1].x, repoTop(0) + 0.85, REPO_Z) },
-    { text: "the one who fits", at: new THREE.Vector3(PEDESTAL.x, pedestalTop + CUBE + 1.1, 0) },
-  ];
+  // ---- labels: none floating over the machine any more (the bracket tags
+  // went on 2026-11-02, they said nothing the picture doesn't). The four
+  // stations are named by the step cards in a row under the machine, each
+  // tied to its station by a leader line drawn below ------------------------
+  const labelDefs: { text: string; at: THREE.Vector3 }[] = [];
   const labels = labelDefs.map((d) => {
     const el = document.createElement("span");
     el.className = "tag automation-label";

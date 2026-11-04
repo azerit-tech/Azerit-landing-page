@@ -3,9 +3,10 @@ import { TopBar, Footer } from "../components/Nav";
 import { Founders } from "../components/Founders";
 import { DemoLink } from "../components/DemoLink";
 import { Email } from "../components/Email";
-import { LatticeScene } from "../components/LatticeScene";
+import { HeroPicker } from "../components/HeroPicker";
 
-// The pitch beside the cube that keeps assembling itself, then the three
+// The pitch beside the robot arm picking the one card that fits (the search
+// is automated, the judgement is ours), then the three
 // beats (proof, the team, the method), the two founders, and a way to reach
 // them.
 export function About() {
@@ -17,7 +18,6 @@ export function About() {
       <main className="page about">
         <section className="about-hero">
           <div className="about-hero-copy">
-            <span className="tag eyebrow">about</span>
             <h1>
               Better engineers, faster.
               <br />
@@ -30,13 +30,14 @@ export function About() {
             </p>
           </div>
           <div className="about-hero-visual">
-            <LatticeScene />
+            {/* the arm that picks the one card out of five: the automated
+                search, for the people who take us for that (components/picker) */}
+            <HeroPicker />
           </div>
         </section>
 
         <section className="about-beats">
           <div className="beat">
-            <span className="tag eyebrow">proof</span>
             <h2>Skills you can check</h2>
             <p>
               CVs and keyword searches return the same crowded pool every time, and nothing in
@@ -46,17 +47,15 @@ export function About() {
             </p>
           </div>
           <div className="beat">
-            <span className="tag eyebrow">team</span>
             <h2>Built by engineers, not recruiters</h2>
             <p>
               We're two engineers from Centrale. We've shipped code, reviewed pull requests and
               run technical interviews. We know what a strong engineer looks like in a
               repository, and what a weak one looks like on a polished profile. That judgement
-              is what we put in the product.
+              is what you pay for.
             </p>
           </div>
           <div className="beat">
-            <span className="tag eyebrow">method</span>
             <h2>We automate the search. The judgement is ours.</h2>
             <p>
               Everything repetitive at Azerit is automated, with AI on the heavy lifting:
@@ -72,14 +71,12 @@ export function About() {
 
         <section className="about-foot">
           <div className="about-team">
-            <span className="tag eyebrow">founders</span>
             <Founders />
           </div>
           <div className="about-contact">
-            <span className="tag eyebrow">contact</span>
             <p>An open role you'd like us to try, a question, a partnership.</p>
             <div className="page-cta-row">
-              <DemoLink className="btn-try">book a demo</DemoLink>
+              <DemoLink className="btn-try">book a call</DemoLink>
               <Email user="jacques" domain="azerit.tech" className="demo-link">
                 or email us
               </Email>

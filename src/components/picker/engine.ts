@@ -7,7 +7,7 @@ import { RoomEnvironment } from "three/examples/jsm/environments/RoomEnvironment
 // arm looks them over, picks the one that fits, raises it toward the reader,
 // and small blocks of that engineer's code gather around it. Then it puts the
 // card back and chooses again. Drawn like the white city behind it
-// (public/hero/city.jpg): warm cream bodies, round and matte, a sage band
+// (the cream city it once stood in front of): warm cream bodies, round and matte, a sage band
 // at the foot of each volume, mint glass strips for windows; teal on the
 // chosen one, soft sage-grey shadows cast on the plaza.
 
