@@ -89,7 +89,7 @@ export function People() {
 
   return (
     <ul className="pp" onMouseLeave={() => setOpen(null)}>
-      {PEOPLE.map((p, i) => (
+      {PEOPLE.map((p) => (
         <li key={p.id} className={`pp-one${open === p.id ? " open" : ""}`}>
           <button
             type="button"
@@ -102,7 +102,7 @@ export function People() {
             onClick={() => setOpen(open === p.id ? null : p.id)}
           >
             <span className="pp-tag">{p.tag}</span>
-            <img src={`/people/${p.id}.webp`} alt={p.alt} width={429} loading="lazy" style={{ animationDelay: `${-i * 1.3}s` }} />
+            <img src={`/people/${p.id}.webp`} alt={p.alt} width={429} loading="lazy" />
           </button>
           <div className="pp-card" id={`pp-${p.id}`} role="tooltip">
             {p.proof}
