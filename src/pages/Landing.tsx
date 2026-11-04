@@ -1,62 +1,39 @@
 import { Link } from "react-router-dom";
 import { TopBar, Footer } from "../components/Nav";
-import { HeroPicker } from "../components/HeroPicker";
-import { DotGridBand } from "../components/DotGridBand";
 import { DemoLink } from "../components/DemoLink";
-import { AutomationScene } from "../components/AutomationScene";
-import { CtaCommits } from "../components/CtaCommits";
+import { HowLoop } from "../components/HowLoop";
 import { Seam } from "../components/Seam";
 import { Founders } from "../components/Founders";
+import { HeroLoop } from "../components/HeroLoop";
+import { People } from "../components/People";
 
-// One imaginary search traced through the page: a senior real-time-systems
-// role. The first card is Léa as we read her, CV and code; the second ties
-// each line of the role to the code of hers that proves it.
-// The fit sheet under "the one who fits": the role's requirements on the
-// left, what proves each one in Léa's code on the right. One line is only
-// partly covered, so the sheet reads as a judgement, not a sales pitch.
-const FIT = [
-  { req: "Real-time systems in Rust or Go", proof: "hot_path.rs", note: "rt-order-matching, lock-free hot path, 2025" },
-  { req: "Lock-free data structures", proof: "lea-fabre/lockfree-ring", note: "341 stars, benchmarked against crossbeam" },
-  { req: "Backpressure under load", proof: "PR #612 · ws-gateway", note: "bounded channels, not in the matcher yet", part: true },
-  { req: "Reviews other people's code", proof: "212 pull requests reviewed", note: "this year, across 6 repositories" },
+// Why hire through us: three columns of the bridge panel, one promise each, in plain sentences (labels and
+// "X, not Y" lines read as a template, 2026-11-04). Where we look and what we read are shown for real further down, so
+// only what the two proof panels don't say lives here.
+const WHY = [
+  { lead: "We send you one engineer.", text: "Already interested in your role. If it isn't them, we keep looking." },
+  { lead: "We've done the job.", text: "Shipped products, reviewed pull requests, run technical interviews." },
+  { lead: "You pay when you hire.", text: "One fee, set on the first call from the role.", href: "/pricing", more: "how the fee works" },
 ];
 
-// Mini contribution heatmap for the candidate card — same seeded-random
-// recipe as the CTA banner, but static so the card stays calm.
-const GRAPH_GREENS = ["#9be9a8", "#40c463", "#30a14e", "#216e39"];
-
-function graphSeeded(n: number) {
-  const x = Math.sin(n * 91.7 + 45.3) * 24634.6345;
-  return x - Math.floor(x);
-}
-
-function CandGraph() {
-  const cols = 30;
-  const rows = 7;
-  const cells: (string | null)[] = [];
-  for (let i = 0; i < cols * rows; i++) {
-    // ~58% filled: a heavy year, the kind of graph the badge is about
-    const on = graphSeeded(i) > 0.42;
-    cells.push(on ? GRAPH_GREENS[Math.floor(graphSeeded(i + 0.5) * GRAPH_GREENS.length)] : null);
-  }
-  return (
-    <div className="cand-graph" style={{ gridTemplateColumns: `repeat(${cols}, 1fr)` }}>
-      {cells.map((c, i) => (
-        <i key={i} style={c ? { background: c } : undefined} />
-      ))}
-    </div>
-  );
-}
-
-// The four steps of a search, the same four stations the machine draws: a
-// short name (the station's), an explicit title, one line on what it means
-// for the hire. Azerit does the whole run, the client meets the result. On desktop they sit around the machine, each tied to its
-// station by a leader line the engine draws.
+// The four steps of a search, the four stations of the picture: a short
+// name, an explicit title, one line on what it means for the hire. Azerit
+// does the whole run, the client meets the result. On desktop they sit on the
+// clouds under the islands, in one evenly spaced row (HowLoop).
 const STEPS = [
   { short: "find", title: "Find them on GitHub", text: "The developers who already build what you're hiring for." },
-  { short: "read code", title: "Read their code", text: "Commits, pull requests and reviews, not a CV." },
-  { short: "match", title: "Keep the one who fits", text: "Not a list: one engineer whose work matches, each skill backed by a project." },
-  { short: "reach out", title: "Reach out about their work", text: "We write to them about what they built. The kind of message engineers answer." },
+  { short: "read code", title: "Read their code", text: "Commits, pull requests and reviews." },
+  { short: "match", title: "Keep the one who fits", text: "The one whose work matches the role, skill by skill." },
+  { short: "reach out", title: "Reach out about their work", text: "The kind of message engineers answer." },
+];
+
+// One real hire, told in three dates: the proof between the people we find
+// and the two of us. DRAFT: the role and the days are invented, filled in to
+// see the section, until Jacques gives Auditoo's real ones.
+const HIRE = [
+  { day: "Day 0", text: "Gauthier briefs us on the role: a senior full-stack engineer." },
+  { day: "Day 6", text: "First call with the engineer we found on GitHub." },
+  { day: "Day 21", text: "The offer is signed." },
 ];
 
 // Local brand assets. Aurel source: https://www.agilitesolutions.com/projects/a-multi-purpose-space-for-aurel-bgc/
@@ -71,247 +48,155 @@ const CLIENTS = [
 export function Landing() {
   return (
     <>
-      <TopBar />
+      <TopBar sky />
 
       <main>
-      {/* hero + demo video */}
-      <div className="hero-zone">
-        {/* the white city behind the hero (public/hero/city.jpg, 2:1): the
-            picture is white on its left, so the copy sits on plain white; the
-            city and the plaza sit on the right under the arm, and a mask fades
-            the bottom into the page before the demo window */}
-        <img
-          className="hero-bg"
-          src="/hero/city.jpg"
-          srcSet="/hero/city-small.jpg 900w, /hero/city.jpg 1774w"
-          sizes="100vw"
-          width={1774}
-          height={887}
-          alt=""
-          fetchPriority="high"
-          decoding="async"
-          aria-hidden
-        />
-        <DotGridBand>
-          <header className="container hero">
-            <div className="hero-copy">
-              <h1>
-                Hire the engineers who actually <em>ship</em>
-              </h1>
-              <p className="sub">
-                We search GitHub for the engineers who have already built what you're hiring for,
-                read their code and reach out. You meet the one who fits.
-              </p>
-              <div className="hero-cta">
-                <Link to="/try" className="btn-try">
-                  Find my engineer
-                </Link>
-                <DemoLink className="demo-link">book a demo</DemoLink>
-              </div>
-              <div className="hero-trust">
-                <p>Trusted by teams at</p>
-                <ul>
-                  {CLIENTS.map((client) => (
-                    <li key={client.name} className={`client-${client.id}`}>
-                      <img src={client.logo} alt={client.wordmark ? client.name : ""} width={client.width} height={client.height} />
-                      {!client.wordmark && <span>{client.name}</span>}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+      {/* hero: one full-width picture under the bar, the promise written
+          on it. The picture (2:1, Jacques generates it): a tech campus seen
+          from above, the central building being finished with cubes from a
+          "github" warehouse, the one teal cube on the plaza; the lower third
+          an empty plaza the words sit on. It moves: see HeroLoop. */}
+      <header className="hero-stage">
+        <HeroLoop />
+        <div className="hero-stage-shade" aria-hidden />
+        <div className="hero-stage-text">
+          <h1>
+            A company is the people who build it. We find <em>yours</em>.
+          </h1>
+          <div className="hero-stage-side">
+            <p className="sub">
+              Engineer recruiting for tech companies. We find them on GitHub, read their work,
+              and bring you the one who fits.
+            </p>
+            <div className="hero-cta">
+              <Link to="/try" className="btn-hero">
+                find my engineer
+              </Link>
+              <DemoLink className="btn-hero-outline">talk to us</DemoLink>
             </div>
-            <div className="hero-visual">
-              {/* the result: a robot arm picks the one card that fits, its
-                  code gathers around it (components/picker) */}
-              <HeroPicker />
-            </div>
-          </header>
+          </div>
+        </div>
+      </header>
+      {/* the bridge: one rounded panel set half on the hero's sage, which
+          melts into the page's white behind it. A bento, Clay-style: the
+          clients and what we promise in the same tiles */}
+      <section className="bridge">
+        <div className="bridge-panel">
+          <h2>Engineers, found by engineers.</h2>
+          <div className="bento">
+            {CLIENTS.map((client) => (
+              <div key={client.id} className={`bento-tile bento-logo client-${client.id}`}>
+                <img src={client.logo} alt={client.wordmark ? client.name : ""} width={client.width} height={client.height} />
+                {!client.wordmark && <span>{client.name}</span>}
+              </div>
+            ))}
+            {WHY.map((cell, i) => (
+              <div key={cell.lead} className={`bento-tile bento-why why-${i}`}>
+                <b>{cell.lead}</b>
+                <p>{cell.text}</p>
+                {cell.href && (
+                  <Link to={cell.href} className="why-link">
+                    {cell.more} <span aria-hidden>→</span>
+                  </Link>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-        </DotGridBand>
-      </div>
+      {/* a client's own words, alone on the white: the air between the
+          bridge panel and How it works (inside the panel it was cramped,
+          2026-11-04). DRAFT: the sentence is our suggestion, to be validated
+          or rewritten by Gauthier Favier (CEO, Auditoo) before it ships */}
+      <section className="quote">
+        <figure className="container quote-inner">
+          <img src="/clients/auditoo.svg" alt="Auditoo" width={103} height={23} />
+          <blockquote>
+            <p>They didn't send us a pile of CVs. They sent us one engineer, and we hired him.</p>
+          </blockquote>
+          <figcaption>
+            {/* DRAFT: initials until the CEO's portrait comes in */}
+            <span className="quote-face" aria-hidden>GF</span>
+            <span className="quote-who">
+              <b>Gauthier Favier</b>
+              <span>CEO, Auditoo</span>
+            </span>
+          </figcaption>
+        </figure>
+      </section>
 
       {/* the rule grid starts here: from the first panel down the rails run
           unbroken to the footer */}
       <Seam />
 
-      {/* feature: the CV, then the code behind it */}
+      {/* the kinds of engineers we find, as people of the hero's world
+          (People): the role gets one of them */}
       <section className="band">
-        <div className="container feature">
-        <div className="f-copy">
-          <span className="tag eyebrow">reading</span>
-          <h2>Read the work</h2>
-          <p>
-            We read the CV like everyone else. Then we find their code and read it:{" "}
-            <b>commits, pull requests and reviews</b>.
-          </p>
-        </div>
-        <div className="f-visual">
-          <div className="cand-card" aria-hidden="true">
-            <div className="cand-top">
-              <span className="cand-ava">LF</span>
-              <div className="cand-id">
-                <div className="cand-name">
-                  Léa Fabre
-                  <span className="cand-badge">match 94</span>
-                </div>
-                <div className="cand-handle">@lea-fabre · Staff engineer, Orbital Pay</div>
-              </div>
-            </div>
-            <CandGraph />
-            <div className="cand-stats">
-              <div>
-                <b>3,669</b>
-                contributions
-              </div>
-              <div>
-                <b>1.4k</b>
-                stars earned
-              </div>
-              <div>
-                <b>212</b>
-                PRs reviewed
-              </div>
-            </div>
-            <div className="cand-repo">
-              <span className="cand-repo-name">rt-order-matching</span>
-              <span className="cand-sim">similar to your role</span>
-              <span className="cand-repo-desc">
-                Real-time order matching engine, lock-free hot path
-              </span>
-            </div>
-            <div className="cand-langs">
-              <div className="cand-langbar">
-                <i style={{ width: "52%", background: "#dea584" }} />
-                <i style={{ width: "26%", background: "#00ADD8" }} />
-                <i style={{ width: "14%", background: "#3178c6" }} />
-                <i style={{ width: "8%", background: "var(--border)" }} />
-              </div>
-              <div className="cand-langlist">
-                <span>
-                  <i className="langdot" style={{ background: "#dea584" }} /> Rust
-                </span>
-                <span>
-                  <i className="langdot" style={{ background: "#00ADD8" }} /> Go
-                </span>
-                <span>
-                  <i className="langdot" style={{ background: "#3178c6" }} /> TypeScript
-                </span>
-              </div>
-            </div>
-            <div className="cand-foot">
-              last commit yesterday <span className="ok">✓ 4 repos read</span>
-            </div>
-          </div>
-        </div>
+        <div className="container people">
+          <h2>You get the one who fits your role</h2>
+          <p className="people-lede">One per role. These are the kinds we find.</p>
+          <People />
         </div>
       </section>
 
       <Seam />
 
-      {/* feature: the deliverable — one engineer, each line of the role proven */}
-      <section className="band">
-        <div className="container feature rev">
-        <div className="f-copy">
-          <span className="tag eyebrow">the match</span>
-          <h2>The one who fits your role</h2>
-          <p>
-            Not a shortlist: one engineer, already interested, with the proof behind the match.
-            You take the call.
-          </p>
-        </div>
-        <div className="f-visual">
-          {/* the fit sheet: each line of the role tied to the file, repo or
-              review record that proves it, the way the machine's leader lines
-              tie a step to its station */}
-          <div className="fit-card" aria-hidden="true">
-            <div className="fit-head">
-              <span>your role</span>
-              <span>her code</span>
-            </div>
-            {FIT.map((row) => (
-              <div className={`fit-row${row.part ? " part" : ""}`} key={row.req}>
-                <span className="fit-req">{row.req}</span>
-                <span className="fit-link" />
-                <span className="fit-proof">
-                  <b>{row.proof}</b>
-                  <small>{row.note}</small>
-                </span>
-              </div>
-            ))}
-            <div className="fit-foot">every line backed by code she wrote</div>
-          </div>
-        </div>
-        </div>
-      </section>
-
       {/* how it works: a hire, from the code up */}
-      <section className="band band-head">
+      <section className="band band-head how-head">
         <div className="container how-title">
-          <span className="tag eyebrow">method</span>
           <h2>How it works</h2>
           <p className="how-lede">
-            You're hiring an engineer. We search GitHub for the people who have already built
-            what you need, read their code, reach out about it, and send you the one who fits
-            and wants to talk.
+            Days from your brief to the first intro, not weeks. One call to brief us, one with
+            the engineer, and we stay until signature.
           </p>
         </div>
       </section>
       <section className="band how-band">
         <div className="container how">
-            {/* the hall the machine stands in: a lazy image behind the panel,
-                inside the rails so it reads as the panel's floor and wall, not
-                as smudges on the dot grid around it */}
-          <div className="how-bg-wrap" aria-hidden>
-            <img
-              className="how-bg"
-              src="/how/hall.jpg"
-              srcSet="/how/hall-small.jpg 1010w, /how/hall.jpg 1627w"
-              sizes="100vw"
-              width={1627}
-              height={967}
-              alt=""
-              loading="lazy"
-              decoding="async"
-              aria-hidden
-            />
-          </div>
-          {/* the search as a machine, downhill: rough blocks come out of GitHub
-              repositories, four stations find, read, match and contact them,
-              the one that fits is shown on the pedestal at the end
-              (components/automation) */}
-          <div className="how-machine">
-            <AutomationScene />
-            <ol className="steps">
-              {STEPS.map((step, i) => (
-                <li className="step" data-step={i + 1} key={step.title}>
-                  <span className="tag">
-                    step {i + 1} · {step.short}
-                  </span>
-                  <h3>{step.title}</h3>
-                  <p>{step.text}</p>
-                </li>
-              ))}
-            </ol>
-          </div>
+          {/* the search as four islands on a cable: a cube out of the
+              github towers, read in the ring, set in the wall's one gap, on
+              to the post office (HowLoop) */}
+          <HowLoop steps={STEPS} />
         </div>
       </section>
 
-      {/* book a demo — vamo-style: a live run on a real search, zero friction */}
+      <Seam />
+
+      {/* one hire, start to finish: words and dates only, the break
+          between the two sections of figures */}
       <section className="band">
-        <div className="container demo-band">
-          <span className="tag eyebrow">live demo</span>
-          <h2>See who we'd find for your open role</h2>
-          <p>30 minutes with the founders, on your real job description.</p>
-          <DemoLink className="btn-try">book a demo</DemoLink>
+        <div className="container hire">
+          <h2>A hire at Auditoo</h2>
+          <ol className="hire-days">
+            {HIRE.map((step, i) => (
+              <li key={i}>
+                <b>{step.day}</b>
+                <p>{step.text}</p>
+              </li>
+            ))}
+          </ol>
         </div>
       </section>
 
       {/* team — framed like every other panel so the rails stay unbroken */}
       <section className="band">
         <div className="container team">
-        <span className="tag eyebrow">team</span>
-        <h2>Meet the founders</h2>
-        <Founders />
+          {/* the two of us in the voxel world, reviewing code together, on
+              the left; the real faces beside it, under the title */}
+          <img
+            className="team-pic"
+            src="/team/review.webp"
+            alt="The two founders as voxel figures, reviewing code on a laptop"
+            width={600}
+            height={588}
+            loading="lazy"
+          />
+          <div className="team-side">
+            <h2>Two engineers read every candidate</h2>
+            <p className="team-lede">One of us reads their work and signs off on the one we send you.</p>
+            <Founders />
+          </div>
         </div>
       </section>
 
@@ -323,11 +208,10 @@ export function Landing() {
           <div className="cta-row">
             <span aria-hidden />
             <Link to="/try" className="cta-link">
-              Hire your next engineer from GitHub
+              Find the engineer who'll build it with you
             </Link>
             <span aria-hidden />
           </div>
-          <CtaCommits />
         </div>
       </section>
       </main>

@@ -23,6 +23,21 @@
   --blue-on-dark: #6cb6ff;
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", monospace;
+  /* the interface voice: nav, buttons, labels, footer. Mono, the engineer's
+     voice (Jacques, 2026-11-02: Inter here read as a mix of too many things). */
+  --font-ui: var(--font-mono);
+  /* the hero's floor (lemlist-style): the lawn blurred into a solid
+     colour carried on under the logos, down to a clean edge. A pale sage
+     with dark words: the lawn's olive (#66801f) and a dark sage (#687c4a)
+     under white words were both too strong (2026-11-03) */
+  --hero-tint: #d4e0c0;
+  --hero-tint-rgb: 212, 224, 192;
+  /* the page's two washes come from the pictures, and only from them: the
+     sky (the clouds, between the hero's mauve and the islands' blush) and
+     the lawn (the hero's sage floor). Sky sits above, lawn below, on every
+     panel, like in both pictures; no other tint anywhere */
+  --sky-rgb: 229, 203, 203;
+  --lawn-rgb: var(--hero-tint-rgb);
   /* the blog is set like a newspaper: Newsreader's optical sizes go from
      body text to the masthead */
   --font-serif: "Newsreader", Georgia, "Times New Roman", serif;
@@ -78,6 +93,33 @@ button {
   padding: 0 24px;
 }
 
+/* ---- call bar : the dark strip above the top bar, one link ---- */
+/* not sticky: it scrolls away with the hero, the top bar stays */
+.callbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 10px 24px;
+  background: var(--dark);
+  color: var(--dark-text);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+.callbar span {
+  transition: transform 0.15s ease;
+}
+.callbar:hover {
+  color: #fff;
+}
+.callbar:hover span {
+  transform: translateX(3px);
+}
+
 /* ---- top bar ---- */
 .topbar {
   position: sticky;
@@ -86,6 +128,31 @@ button {
   background: var(--bg);
   border-bottom: 1px solid var(--border);
 }
+/* the landing's bar, Apple-style: a thin pane of frosted glass laid over
+   the hero, which runs up under it to the top of the page; the picture
+   shows through, blurred, and so does the page once it scrolls */
+.topbar-sky {
+  --bar-h: 48px;
+  height: var(--bar-h);
+  margin-bottom: calc(-1 * var(--bar-h));
+  background: rgba(252, 248, 246, 0.6);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(31, 35, 40, 0.06);
+}
+.topbar-sky .topbar-inner {
+  height: 100%;
+  max-width: 1080px;
+  padding-top: 0;
+  padding-bottom: 0;
+  font-size: 12.5px;
+}
+.topbar-sky .logo {
+  font-size: 15px;
+}
+.topbar-sky .topbar-nav {
+  gap: 28px;
+}
 .topbar-inner {
   max-width: 1400px;
   margin: 0 auto;
@@ -93,7 +160,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 14px;
 }
 .topbar .logo {
@@ -142,7 +209,7 @@ button {
 /* ---- buttons ---- */
 .btn-try {
   display: inline-block;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 16px;
   font-weight: 700;
   color: #ffffff;
@@ -158,7 +225,7 @@ button {
   transform: translateY(-1px);
 }
 .btn-ghost {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 13.5px;
   background: transparent;
   color: var(--text);
@@ -171,7 +238,7 @@ button {
 }
 /* quiet mailto next to the hero CTA — vamo pairs try-now with book-a-demo */
 .demo-link {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 13px;
   font-weight: 600;
   color: var(--green);
@@ -181,40 +248,185 @@ button {
   text-decoration: underline;
 }
 
+/* ---- hero stage : the picture full width, the promise written on it ---- */
+/* lemlist-style: the picture runs edge to edge under the top bar, the
+   title bottom left, the text and the buttons bottom right.
+   The picture is pale, so the words are dark; a white haze climbs from
+   the bottom, the page's own white, so the plaza's beige fades out under
+   the words and the hero melts into the page (Jacques, 2026-11-02: no
+   beige in the hero). */
+.hero-stage {
+  position: relative;
+  /* the top bar takes ~64px above; the stage stops short of the fold so
+     the promise and its buttons come up with the campus, not after it.
+     The floor adds height under the campus for the words to come down
+     onto, close to the bridge panel */
+  --hero-floor: 72px;
+  /* how far the picture stands above the stage's foot: the campus sits
+     high, the sage runs under it */
+  --hero-lift: 112px;
+  /* the stage starts at the top of the page, under the glass bar (48px) */
+  min-height: calc(min(calc((100vh - 64px) * 0.82), 680px) + var(--hero-floor) + 48px);
+  display: flex;
+  align-items: flex-end;
+  background: var(--hero-tint);
+  color: var(--text);
+  overflow: hidden;
+}
+/* the picture stands on the hero's floor: a short stage trims sky, never
+   the lawn the words sit on */
+.hero-stage-img {
+  position: absolute;
+  inset: 0 0 var(--hero-lift) 0;
+  width: 100%;
+  height: calc(100% - var(--hero-lift));
+  object-fit: cover;
+  object-position: center bottom;
+}
+/* the loop lies on its own first frame: it fades in once it really plays */
+.hero-stage-video {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.hero-stage-video.is-on {
+  opacity: 1;
+}
+.hero-stage-shade {
+  position: absolute;
+  inset: 0;
+  /* lemlist's trick: the empty lawn goes soft, then melts into its own
+     green, which carries on under the logos. The belt and the plaza, the
+     story, stay sharp above the title. */
+  background: linear-gradient(to top, rgb(var(--hero-tint-rgb)) 0%, rgb(var(--hero-tint-rgb)) 15.5%, rgba(var(--hero-tint-rgb), 0.75) 23%, rgba(var(--hero-tint-rgb), 0.3) 30%, rgba(var(--hero-tint-rgb), 0) 37%);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, #000 22%, transparent 37%);
+  mask-image: linear-gradient(to top, #000 0%, #000 22%, transparent 37%);
+}
+.hero-stage-text {
+  position: relative;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  /* the words sit low, on the green the lawn has melted into */
+  padding: 120px 48px 40px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 48px;
+}
+.hero-stage h1 {
+  flex: 1.15 1 0;
+  font-family: var(--font-serif);
+  /* sized to the empty plaza at the foot of the picture: three lines must
+     stay under the campus */
+  font-size: clamp(40px, 4.5vw, 62px);
+  font-weight: 600;
+  font-variation-settings: "opsz" 72;
+  text-wrap: balance;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  max-width: 720px;
+  margin: 0;
+  color: var(--text);
+}
+.hero-stage h1 em {
+  font-style: italic;
+  color: var(--green-dim);
+}
+.hero-stage-side {
+  flex: 1 1 0;
+  max-width: 520px;
+  padding-bottom: 6px;
+}
+.hero-stage .sub {
+  font-size: 18.5px;
+  line-height: 1.5;
+  color: var(--text);
+  margin: 0 0 26px;
+}
+/* the two buttons on the sage: the call dark, the talk outlined */
+.btn-hero,
+.btn-hero-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  padding: 0 24px;
+  border-radius: 10px;
+  font-family: var(--font-ui);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.12s ease;
+}
+.btn-hero {
+  color: #fff;
+  background: var(--text);
+  border: 1px solid var(--text);
+  box-shadow: 0 6px 20px rgba(40, 52, 10, 0.16);
+}
+.btn-hero:hover {
+  background: #000;
+  transform: translateY(-1px);
+}
+.btn-hero-outline {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(31, 35, 40, 0.35);
+}
+.btn-hero-outline:hover {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: var(--text);
+}
+.btn-hero:focus-visible,
+.btn-hero-outline:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 4px;
+}
+@media (max-width: 900px) {
+  .hero-stage {
+    --hero-floor: 0px;
+    --hero-lift: 0px;
+    min-height: calc(min(76vh, 660px) + 48px);
+  }
+  .hero-stage-img {
+    /* keep the main building in view when the frame goes tall */
+    object-position: 54% bottom;
+  }
+  .hero-stage-text {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+    padding: 100px 24px 36px;
+  }
+  .hero-stage h1,
+  .hero-stage-side {
+    max-width: 100%;
+  }
+  .hero-stage-shade {
+    background: linear-gradient(to top, rgb(var(--hero-tint-rgb)) 0%, rgb(var(--hero-tint-rgb)) 40%, rgba(var(--hero-tint-rgb), 0.6) 54%, rgba(var(--hero-tint-rgb), 0) 66%);
+    -webkit-mask-image: linear-gradient(to top, #000 0%, #000 50%, transparent 66%);
+    mask-image: linear-gradient(to top, #000 0%, #000 50%, transparent 66%);
+  }
+  .hero-stage .sub {
+    font-size: 16.5px;
+    margin-bottom: 18px;
+  }
+  .hero-cta {
+    gap: 10px;
+  }
+}
+
 /* ---- hero zone : GitHub logo pattern behind the title ---- */
 .hero-zone {
   position: relative;
   /* solid base: the hero draws its own interactive dots over this */
   background: var(--bg);
 }
-/* the hero's dot grid carries on down the page: it shows through the air
-   between panels, so the gaps read as the same backdrop rather than nothing */
-main {
-  background-image: radial-gradient(circle at center, rgba(89, 99, 110, 0.16) 1px, transparent 1.4px);
-  background-size: 24px 24px;
-}
 .hero-zone > .container {
   position: relative;
   z-index: 1;
-}
-/* the white city (public/hero/city.jpg, 2:1, city on the right, white on
-   the left): pinned to the top right of the zone at its natural ratio, so
-   the towers stand behind the arm and the copy keeps a plain white page; a
-   mask fades the last stretch so the dot grid takes over before the demo
-   window */
-.hero-bg {
-  position: absolute;
-  /* lifted so the plaza's parapet runs above the arm's foot: the sky it
-     loses at the top is empty anyway */
-  top: -5vw;
-  right: 0;
-  width: 100%;
-  height: min(calc(100% + 5vw), 55vw);
-  object-fit: cover;
-  object-position: right top;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 92%);
-  mask-image: linear-gradient(to bottom, #000 55%, transparent 92%);
 }
 .gh-bg {
   position: absolute;
@@ -330,11 +542,7 @@ main {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  /* faint resting dots */
-  background-image: radial-gradient(circle at center, rgba(89, 99, 110, 0.16) 1px, transparent 1.4px);
-  background-size: var(--dot-gap) var(--dot-gap);
-  /* no fade at the bottom: the same grid carries on under the rest of the
-     page (see `main`), so the hero's dots must run straight into it */
+  /* no dots any more: plain page */
 }
 
 /* ---- hero : copy + CTA left, the robot arm right ---- */
@@ -359,20 +567,34 @@ main {
   min-width: 0;
   min-height: 360px;
   display: flex;
-  align-items: flex-end; /* the arm's foot down on the picture's plaza */
+  align-items: center;
   justify-content: flex-end;
 }
+/* the building going up (three.js canvas injected by BuildingScene): a
+   compact scene on the page itself, its shadow cast on the dot grid, no
+   scenery */
+.hero-building {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 1;
+  flex-shrink: 0;
+}
+.hero-building canvas {
+  position: relative;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
 /* the robot arm picking the one who fits (three.js canvas injected by
-   HeroPicker): a compact scene on the page itself, its shadows cast on the
-   dot grid, no scenery */
+   HeroPicker), now on the about page */
 .hero-picker {
   position: relative;
   width: 100%;
   max-width: 540px;
   aspect-ratio: 1.12;
   flex-shrink: 0;
-  /* a little past the copy's bottom edge, onto the plaza proper */
-  margin-bottom: -24px;
+  margin: 0 auto;
 }
 .hero-picker canvas {
   position: relative;
@@ -398,7 +620,7 @@ main {
     min-height: 0;
     justify-content: center;
   }
-  .hero-picker {
+  .hero-building {
     width: min(84vw, 360px);
     margin: 0 auto;
   }
@@ -446,55 +668,228 @@ main {
   gap: 16px;
   flex-wrap: wrap;
 }
-.hero-trust {
-  margin-top: 24px;
-  color: var(--text-dim);
-  font-size: 12px;
+/* ---- the bridge : from the hero's sage down to the page's white ----
+   Clay-style: one big rounded panel set half on the sage, which carries on
+   behind it and melts into the white by its middle, so the hero and the page
+   read as one piece. Inside, bento tiles: who trusts us, then why. The
+   client quote comes after, as its own section. */
+.bridge {
+  /* the sage stops early: solid only to the panel's top edge, white by the
+     panel's first third (it ran to 560px and read as a green page, 2026-11-03) */
+  background: linear-gradient(to bottom, var(--hero-tint) 0, var(--hero-tint) 72px, var(--bg) 300px);
+  /* the panel starts low (this and the hero's floor): on a laptop only its
+     top edge shows under the hero, the title waits below the fold; the
+     air under it comes from the quote section */
+  padding: 48px 0 0;
 }
-.hero-trust ul {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 12px 28px;
-  margin-top: 12px;
-  list-style: none;
-  color: var(--text);
-  font-size: 20px;
+.bridge-panel {
+  width: min(100% - 48px, 1400px);
+  margin: 0 auto;
+  padding: 56px 40px 40px;
+  border-radius: 40px;
+  /* a touch of the sky in the far corner, over the sage the panel sits on */
+  background: radial-gradient(ellipse 55% 65% at 100% 0%, rgba(var(--sky-rgb), 0.5), transparent), #f9faf8;
+  /* outlined like the page's rails (same hairline): the panel's edge stays
+     readable where the sage turns to white, so it ends as a shape instead of
+     fading out */
+  border: 1px solid var(--border);
+}
+.bridge-panel h2 {
+  font-family: var(--font-serif);
+  font-size: var(--h2-size);
   font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  text-align: center;
+  margin: 0 0 36px;
 }
-.hero-trust li {
-  display: inline-flex;
+/* the bento: the four clients in a row of small tiles, the three promises
+   under them. White tiles on the panel */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: minmax(104px, auto);
+  gap: 12px;
+  grid-template-areas:
+    "a a a i i i r r r d d d"
+    "o o o o t t t t p p p p";
+}
+.bento-tile {
+  margin: 0;
+  padding: 24px 28px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+}
+.bento-logo {
+  display: flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 10px;
+  font-size: 18px;
+  font-weight: 600;
   white-space: nowrap;
+  color: var(--text);
 }
-.hero-trust img {
+.bento-logo.client-aurel {
+  grid-area: a;
+}
+.bento-logo.client-iterate {
+  grid-area: i;
+}
+.bento-logo.client-raglogic {
+  grid-area: r;
+}
+.bento-logo.client-auditoo {
+  grid-area: d;
+}
+/* the marks greyed out, back to their colours on hover */
+.bento-logo > * {
+  opacity: 0.6;
+  filter: grayscale(1);
+  transition: opacity 0.15s ease, filter 0.15s ease;
+}
+.bento-logo:hover > * {
+  opacity: 1;
+  filter: none;
+}
+.bento-logo img {
   display: block;
+  height: auto;
   object-fit: contain;
 }
-.hero-trust .client-iterate img {
+.bento-logo.client-aurel img {
+  width: 118px;
+}
+.bento-logo.client-iterate img {
+  width: 40px;
   filter: brightness(0);
 }
-@media (max-width: 560px) {
-  .hero-trust ul {
-    gap: 12px;
+.bento-logo.client-raglogic img {
+  width: 28px;
+}
+.bento-logo.client-auditoo img {
+  width: 96px;
+}
+.bento-why {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.bento-why.why-0 {
+  grid-area: o;
+}
+.bento-why.why-1 {
+  grid-area: t;
+}
+.bento-why.why-2 {
+  grid-area: p;
+}
+.bento-why b {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.bento-why p {
+  color: var(--text-dim);
+  font-size: 15px;
+  line-height: 1.5;
+  max-width: 44ch;
+}
+.why-link {
+  font-family: var(--font-ui);
+  font-size: 12.5px;
+  color: var(--green);
+  text-decoration: none;
+  margin-top: auto;
+}
+.why-link:hover {
+  text-decoration: underline;
+}
+/* ---- the quote : a client's words alone on the white, the air between
+   the bridge panel and How it works ---- */
+.quote {
+  padding: 128px 0 136px;
+}
+.quote-inner {
+  margin: 0 auto;
+  max-width: 920px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  text-align: center;
+}
+.quote-inner > img {
+  width: 92px;
+  height: auto;
+  filter: grayscale(1);
+  opacity: 0.6;
+}
+.quote blockquote {
+  margin: 0;
+}
+.quote blockquote p {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 3.2vw, 40px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  text-wrap: balance;
+}
+.quote blockquote p::before {
+  content: "“";
+}
+.quote blockquote p::after {
+  content: "”";
+}
+.quote figcaption {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  font-family: var(--font-ui);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+@media (max-width: 800px) {
+  .bridge {
+    padding-top: 48px;
+  }
+  .bridge-panel {
+    width: calc(100% - 24px);
+    padding: 36px 12px 12px;
+    border-radius: 28px;
+  }
+  .bridge-panel h2 {
+    margin-bottom: 24px;
+    padding: 0 12px;
+  }
+  .bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    gap: 8px;
+    grid-template-areas:
+      "a i"
+      "r d"
+      "o o"
+      "t t"
+      "p p";
+  }
+  .bento-tile {
+    padding: 20px;
+    border-radius: 16px;
+  }
+  .quote {
+    padding: 88px 0 96px;
+  }
+  .bento-logo {
+    height: 72px;
     font-size: 16px;
-  }
-  .hero-trust .client-aurel img {
-    width: 104px;
-    height: auto;
-  }
-  .hero-trust .client-iterate img {
-    width: 28px;
-    height: auto;
-  }
-  .hero-trust .client-raglogic img {
-    width: 24px;
-    height: 24px;
-  }
-  .hero-trust .client-auditoo img {
-    width: 81px;
-    height: auto;
   }
 }
 /* Flat teal action, matching the hero's restrained technical styling. */
@@ -750,8 +1145,9 @@ main {
 /* ---- section bands ---- */
 /* laravel.com-style section rules: each band draws a full-width hairline at its
    top edge; on wide screens the inner container adds verticals along its
-   edges and a small teal square centered on each line crossing. Bands stack
-   with no margins so the verticals read as one continuous line. */
+   edges. Plain hairlines only: the teal crossing squares and the dashed
+   gutters went on 2026-11-02, they read as a blueprint. Bands stack with
+   no margins so the verticals read as one continuous line. */
 .band {
   position: relative;
   border-top: 1px solid var(--border);
@@ -779,12 +1175,6 @@ main {
   height: 56px;
 }
 @media (min-width: 801px) {
-  /* gutters: hairlines are solid across the panel and turn dashed outside the
-     rails, so the grid visibly carries on past the frame to the screen edge */
-  .band {
-    border-top-style: dashed;
-    border-bottom-style: dashed;
-  }
   .band > .container,
   .seam > .container {
     position: relative;
@@ -798,6 +1188,13 @@ main {
   }
   .seam > .container {
     height: 100%;
+  }
+  /* the first seam, under the bridge panel, is plain air: the rails would
+     start glued to the rounded panel's foot. The ledger opens with the
+     first band's own top rule instead (2026-11-03) */
+  .bridge + .seam > .container,
+  .quote + .seam > .container {
+    border-color: transparent;
   }
   /* the solid part of each hairline: the container redraws the band's dashed
      rule as a solid one over its own width (negative margins keep it on the
@@ -813,49 +1210,6 @@ main {
   .footer.band > .container {
     border-bottom: none;
     margin-bottom: 0;
-  }
-  /* bottom crossings: the band draws the two squares where its bottom hairline
-     meets the container's rails (the container's own pseudos hold the top pair) */
-  .band::before,
-  .band::after {
-    content: "";
-    position: absolute;
-    bottom: -4px;
-    width: 7px;
-    height: 7px;
-    background: var(--green);
-    z-index: 1;
-  }
-  .band::before {
-    left: calc(50% - min(50% - 24px, 700px) - 4px);
-  }
-  .band::after {
-    right: calc(50% - min(50% - 24px, 700px) - 4px);
-  }
-  .band.band-head::before,
-  .band.band-head::after,
-  .band.band-bleed::before,
-  .band.band-bleed::after,
-  .band:has(+ .band)::before,
-  .band:has(+ .band)::after,
-  .footer.band::before,
-  .footer.band::after {
-    content: none;
-  }
-  .band > .container::before,
-  .band > .container::after {
-    content: "";
-    position: absolute;
-    top: -4px;
-    width: 7px;
-    height: 7px;
-    background: var(--green);
-  }
-  .band > .container::before {
-    left: -4px;
-  }
-  .band > .container::after {
-    right: -4px;
   }
 }
 @media (max-width: 800px) {
@@ -892,10 +1246,17 @@ main {
   text-align: center;
   padding-top: 44px;
   padding-bottom: 44px;
-  /* the title cell reads as a tinted cell: strongest under the top hairline,
-     fading to the page's white at the bottom, where the hall picture rises
-     out of the same white */
-  background: linear-gradient(180deg, rgba(15, 118, 110, 0.13), rgba(15, 118, 110, 0) 92%);
+}
+/* the whole section sits in the picture's colours: the title band, screen
+   wide, runs from white at its top to the picture's own top colours,
+   stretched up, so the picture starts where it ends (public/how/isles-top.png,
+   a smooth field: a small file stretched). The container drops the panel
+   wash (beats `.band > .container`). */
+.band.how-head {
+  background: url("/how/isles-top.png") center / 100% 100% no-repeat;
+}
+.band > .container.how-title {
+  background: transparent;
 }
 .how-title h2 {
   font-family: var(--font-serif);
@@ -913,58 +1274,15 @@ main {
   color: var(--text-dim);
 }
 .how {
-  padding-top: 20px;
-  padding-bottom: 48px;
-}
-/* the machine's labels: the site's [ tags ], pinned over the canvas */
-.automation {
   position: relative;
-  width: 100%;
-  overflow: visible;
+  padding-top: 0;
+  padding-bottom: 0;
 }
-.automation canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-}
-.automation-label {
-  position: absolute;
-  left: 0;
-  top: 0;
-  white-space: nowrap;
-  pointer-events: none;
-  font-size: 13px;
-  font-weight: 500;
-  padding: 2px 7px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  box-shadow: 0 1px 2px rgba(31, 35, 40, 0.06);
-}
-/* the search as the isometric machine (components/automation), the four
-   steps in a row under it */
-.how-machine {
-  position: relative;
-  max-width: 1180px;
-  margin: 0 auto;
-}
-/* the panel is the generated hall picture (public/how/hall.jpg): a white
-   industrial hall, windows and a back wall across the top, a nearly white
-   floor below; the machine stands on the floor with the wall behind it and
-   the step cards sit on the floor. The picture lives inside the container,
-   clipped by the rails, so the panel reads as one framed picture and the
-   dot grid stays clean outside it. */
-.how-band {
-  overflow: hidden;
-}
-.how {
-  position: relative;
-  overflow: hidden;
-  background: var(--bg);
-}
-.how > .how-machine {
-  position: relative;
-  z-index: 1;
+/* this panel drops the gutter (beats `.band > .container`); the picture
+   itself runs past the rails to the screen's edges */
+.band.how-band > .container.how {
+  padding-left: 0;
+  padding-right: 0;
 }
 /* glued to its title above: no hairline and no rail crossings between
    them, the picture rises out of the title cell's white instead */
@@ -976,94 +1294,104 @@ main {
 .band-head + .how-band > .container::after {
   content: none;
 }
-/* the hall as Jacques framed it: the picture at the panel's size, pinned on
-   its floor (the bottom of the image), the back wall and windows fading
-   out through a long eased curve into the title's white. The machine's own
-   drawn shadows put it on that floor; a bigger picture with the wall in
-   view fought the isometric drawing and looked like a blurry photo with a
-   diagram stuck on it. The mask lives on the wrapper, clipped by the rails. */
-.how-bg-wrap {
+.how-band > .container {
+  position: relative;
+}
+/* no rules around this section, nor down the seams on either side of it:
+   the picture spans the screen and the section is white at both ends
+   (beats `.band > .container`, `.seam > .container` and the band's own) */
+.band.how-head,
+.band.how-band,
+.band.how-head > .container,
+.band.how-band > .container,
+.seam:has(+ .how-head) > .container,
+.how-band + .seam > .container {
+  border-color: transparent;
+}
+/* beats the panel rule further down (`.band > .container`), which paints
+   a green wash under every panel */
+.band.how-band > .container {
+  background: var(--bg);
+}
+/* the islands on their cable (public/how, components/HowLoop): Jacques's
+   picture across the whole screen, over the rails, carried up into the
+   title band's colours, the step cards on the clouds under the islands.
+   The picture covers the stage from its top edge, so a narrower stage trims
+   the sides, never the islands. The page clips sideways (html), so 100vw
+   never scrolls. */
+.how-stage {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  aspect-ratio: 1920 / 815;
+  min-height: 480px;
+}
+/* the clouds under the top veil go soft before they go flat: a blur that
+   is strongest at the edge and gone by the campus's roofs */
+.how-stage::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+  aspect-ratio: 1920 / 130;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(#000, transparent);
+  mask-image: linear-gradient(#000, transparent);
+  pointer-events: none;
+}
+.how-pic {
   position: absolute;
   inset: 0;
-  z-index: 0;
   overflow: hidden;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.04) 6%,
-    rgba(0, 0, 0, 0.14) 12%,
-    rgba(0, 0, 0, 0.3) 18%,
-    rgba(0, 0, 0, 0.5) 24%,
-    rgba(0, 0, 0, 0.7) 30%,
-    rgba(0, 0, 0, 0.86) 36%,
-    rgba(0, 0, 0, 0.96) 42%,
-    #000 48%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0, 0, 0, 0.04) 6%,
-    rgba(0, 0, 0, 0.14) 12%,
-    rgba(0, 0, 0, 0.3) 18%,
-    rgba(0, 0, 0, 0.5) 24%,
-    rgba(0, 0, 0, 0.7) 30%,
-    rgba(0, 0, 0, 0.86) 36%,
-    rgba(0, 0, 0, 0.96) 42%,
-    #000 48%
-  );
 }
-.how-bg {
+/* veils over the picture's two edges, in its own colours stretched: at the
+   top they continue the title band's field and thin out over a long way,
+   down past the campus's roofs; at the bottom the clouds under the cards melt into their
+   colours, then into white (public/how/isles-veil-*.png) */
+.how-pic::before,
+.how-pic::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  background: center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+.how-pic::before {
+  top: 0;
+  aspect-ratio: 1920 / 240;
+  background-image: url("/how/isles-veil-top.png");
+}
+.how-pic::after {
+  bottom: 0;
+  aspect-ratio: 1920 / 260;
+  background-image: url("/how/isles-veil-bottom.png");
+}
+.how-pic-img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 90%;
+  object-position: center top;
 }
-.how-band > .container {
-  position: relative;
+/* the loop lies on its own first frame: it fades in once it really plays */
+.how-pic-video {
+  opacity: 0;
+  transition: opacity 0.4s ease;
 }
-/* beats the panel rule further down (`.band > .container`), which paints
-   the page colour under every panel */
-.band.how-band > .container {
-  background: transparent;
+.how-pic-video.is-on {
+  opacity: 1;
 }
-.how-machine .automation {
-  aspect-ratio: 16 / 9.5;
-}
-/* the machine is seen square on, so only width makes it bigger: on a wide
-   screen the canvas runs past the step cards on both sides (the band clips
-   it); the leaders are drawn in the canvas's own frame, so they follow */
-@media (min-width: 1024px) {
-  .how-machine .automation {
-    width: calc(100% + 240px);
-    margin-inline: -120px;
-    aspect-ratio: 16 / 7;
-  }
-}
-/* the leader lines from each step to its station, drawn by the engine */
-.automation-leaders {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  overflow: visible;
-}
-.automation-leaders line {
-  stroke: var(--green);
-  stroke-width: 1.2;
-  stroke-dasharray: 3 4;
-  opacity: 0.75;
-}
-.automation-leaders circle {
-  fill: var(--green);
-}
-/* the four steps in one row under the machine, read left to right like the
-   belts; the engine ties each to its station with a leader line */
+/* the four steps in one row on the clouds, above the blur, read left to right like the
+   cable, evenly spaced from under the first island to under the last */
 .steps {
   position: absolute;
+  z-index: 2;
   inset: 0;
   margin: 0;
   padding: 0;
@@ -1072,28 +1400,33 @@ main {
 }
 .step {
   position: absolute;
-  top: 78%;
-  width: 22%;
+  top: 70%;
+  width: 18.5%;
+  padding: 12px 16px 14px;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(31, 35, 40, 0.1);
   pointer-events: auto;
 }
 .step:nth-child(1) {
-  left: 0;
+  left: 7%;
 }
 .step:nth-child(2) {
-  left: 26%;
+  left: 29.5%;
 }
 .step:nth-child(3) {
   left: 52%;
 }
 .step:nth-child(4) {
-  left: 78%;
+  left: 74.5%;
 }
 .step h3 {
   font-size: 15.5px;
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.45;
-  margin: 8px 0 0;
+  margin: 0;
 }
 .step p {
   font-size: 13.5px;
@@ -1101,499 +1434,440 @@ main {
   color: var(--text-dim);
   margin-top: 4px;
 }
-/* narrower than a laptop the cards would cover the machine: stack them
-   under it instead */
+/* narrower than a laptop the cards would cover the islands: the picture
+   keeps them and loses the clouds below, the steps stack under it */
 @media (max-width: 1023px) {
-  .automation-leaders {
-    display: none;
+  .how-stage {
+    aspect-ratio: auto;
+    min-height: 0;
+  }
+  .how-pic {
+    position: relative;
+    aspect-ratio: 1920 / 610;
   }
   .steps {
     position: static;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px 24px;
-    margin-top: 16px;
-    padding-top: 8px;
-    border-top: 1px dashed var(--border);
+    padding: 8px 24px 32px;
   }
   .step {
     position: static;
     width: auto;
-    max-width: none;
     padding: 12px 0 4px;
+    background: none;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
   }
 }
 
-/* ---- alternating feature rows ----
-   two full-height cells split by a hairline that meets the band rules top and
-   bottom (same trick as the steps: the vertical padding lives in the cells).
-   The visual cell is tinted and bleeds to the container frame, laravel-style. */
-.feature {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+/* ---- the people : the kinds of engineers we find ----
+   (components/People) four figures of the voxel world on their islands,
+   floating; a tag over each, the one under the pointer gives way to its card */
+.people {
+  text-align: center;
+  padding-top: 72px;
+  padding-bottom: 64px;
 }
-/* grid items default to min-width:auto, which lets a long mono token (repo
-   name, email address) push the track wider than the viewport. min-width:0
-   lets the column shrink so the cards stay inside the screen on mobile. */
-.f-copy,
-.f-visual {
-  min-width: 0;
-}
-.f-copy {
-  /* full-height flex cell (text stays vertically centered) so the title-cell
-     tint runs from the top hairline to the bottom one, like the visual cell */
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 64px 56px 64px 24px;
-  /* bleed to the container edge so the tint meets the frame */
-  margin-left: -24px;
-  /* teal tint drifting in from the outer corner, mirroring the visual cell */
-  background: linear-gradient(135deg, rgba(15, 118, 110, 0.13), rgba(15, 118, 110, 0) 60%);
-}
-.feature.rev .f-copy {
-  order: 2;
-  margin-left: 0;
-  margin-right: -24px;
-  padding: 64px 24px 64px 56px;
-  background: linear-gradient(225deg, rgba(15, 118, 110, 0.13), rgba(15, 118, 110, 0) 60%);
-}
-.f-visual {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border-left: 1px solid var(--border);
-  /* bg-soft with a teal tint drifting in from the outer corner */
-  background: linear-gradient(225deg, rgba(15, 118, 110, 0.15), rgba(15, 118, 110, 0) 70%),
-    var(--bg-soft);
-  /* -24px margin cancels the container's gutter so the tint runs to its edge;
-     the matching padding keeps the content off that edge */
-  margin-right: -24px;
-  padding: 40px 24px 40px 40px;
-}
-.feature.rev .f-visual {
-  order: 1;
-  border-left: none;
-  border-right: 1px solid var(--border);
-  margin-right: 0;
-  margin-left: -24px;
-  padding: 40px 40px 40px 24px;
-  /* mirrored: teal drifts in from the left outer corner */
-  background: linear-gradient(135deg, rgba(15, 118, 110, 0.15), rgba(15, 118, 110, 0) 70%),
-    var(--bg-soft);
-}
-@media (min-width: 801px) {
-  /* the container gutter grows to 36px here and gains its side borders: the
-     tint now meets the band's vertical rule exactly */
-  .f-visual {
-    margin-right: -36px;
-    padding-right: 36px;
-  }
-  .feature.rev .f-visual {
-    margin-right: 0;
-    margin-left: -36px;
-    padding-right: 40px;
-    padding-left: 36px;
-  }
-  .f-copy {
-    margin-left: -36px;
-    padding-left: 36px;
-  }
-  .feature.rev .f-copy {
-    margin-left: 0;
-    margin-right: -36px;
-    padding-right: 36px;
-  }
-}
-.f-copy h2 {
+.people h2 {
   font-family: var(--font-serif);
   font-size: var(--h2-size);
   font-weight: 600;
   letter-spacing: -0.015em;
-  line-height: 1.2;
-  margin-bottom: 14px;
 }
-.f-copy h2 code {
-  font-family: var(--font-mono);
-  font-size: 0.85em;
+.people-lede {
+  margin-top: 12px;
+  font-size: 16px;
+  color: var(--text-dim);
+}
+.pp {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 32px;
+  align-items: end;
+  margin: 48px auto 0;
+  max-width: 1240px;
+}
+.pp-one {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pp-fig {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font: inherit;
   color: inherit;
 }
-.f-copy p {
-  color: var(--text-dim);
-  font-size: 16.5px;
+.pp-fig:focus-visible {
+  outline: 2px solid var(--green);
+  outline-offset: 6px;
+  border-radius: 12px;
 }
-.f-copy p b {
+.pp-tag {
+  padding: 4px 11px;
+  border: 1px solid var(--border);
+  border-radius: 99px;
+  background: var(--bg);
+  font-family: var(--font-ui);
+  font-size: 12px;
+  color: var(--text);
+  white-space: nowrap;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+/* same scale for all four: the cut-outs are equally wide */
+.pp-fig img {
+  width: 172px;
+  height: auto;
+  animation: pp-float 5.2s ease-in-out infinite;
+  filter: drop-shadow(0 26px 18px rgba(31, 35, 40, 0.13));
+  transition: opacity 0.3s ease, scale 0.3s ease;
+}
+@keyframes pp-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+.pp-one.open .pp-tag {
+  border-color: var(--green);
+  color: var(--green);
+}
+/* the open one: the figure sinks away, the card takes its place under the
+   tag (the tag is 26px tall, 14px above the picture) */
+.pp-one.open .pp-fig img {
+  opacity: 0;
+  scale: 0.92;
+}
+.pp-card {
+  position: absolute;
+  z-index: 2;
+  top: 40px;
+  bottom: 0;
+  left: 50%;
+  width: min(264px, 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  opacity: 0;
+  translate: -50% 10px;
+  pointer-events: none;
+  transition: opacity 0.25s ease, translate 0.3s ease;
+}
+.pp-card > * {
+  box-shadow: 0 16px 40px rgba(31, 35, 40, 0.1);
+}
+.pp-one.open .pp-card {
+  opacity: 1;
+  translate: -50% 0;
+  transition-delay: 0.08s;
+}
+.pp-card > p {
+  margin-top: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  font-size: 14px;
+  line-height: 1.5;
   color: var(--text);
 }
+.pp-line {
+  display: none;
+}
+/* the proofs, each as it looks where we found it */
+.pp-co,
+.pp-rank,
+.pp-graph,
+.pp-repo {
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-soft);
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+.pp-co,
+.pp-rank {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.pp-co b,
+.pp-rank b,
+.pp-repo b {
+  display: block;
+  color: var(--text);
+  font-size: 12.5px;
+}
+.pp-co small,
+.pp-rank small,
+.pp-graph small,
+.pp-repo small {
+  display: block;
+  color: var(--text-dim);
+  font-size: 11px;
+}
+.pp-logo {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  background: var(--green);
+  color: #fff;
+  font-weight: 700;
+}
+/* Datadog's own purple */
+.pp-logo-dd {
+  background: #632ca6;
+}
+.pp-co em {
+  margin-left: auto;
+  padding: 1px 8px;
+  border-radius: 99px;
+  background: var(--green-soft);
+  color: var(--green);
+  font-style: normal;
+  font-size: 10.5px;
+}
+.pp-medal {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 99px;
+  background: radial-gradient(circle at 35% 30%, #fde68a, #e0a526 55%, #b7791f);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.35);
+}
+.pp-cells {
+  display: grid;
+  grid-template-columns: repeat(22, 1fr);
+  gap: 2px;
+  margin-bottom: 7px;
+}
+.pp-cells i {
+  aspect-ratio: 1;
+  border-radius: 2px;
+}
+.pp-repo span {
+  display: block;
+  margin-top: 6px;
+  color: var(--text-dim);
+  font-size: 11px;
+}
+.pp-repo i {
+  font-style: normal;
+  color: var(--text);
+  font-weight: 700;
+}
+@media (prefers-reduced-motion: reduce) {
+  .pp-fig img {
+    animation: none;
+  }
+}
+@media (max-width: 1000px) {
+  .pp-fig img {
+    width: 140px;
+  }
+  .pp {
+    column-gap: 20px;
+  }
+}
+/* phones: two by two, no cards, the line under each figure */
 @media (max-width: 800px) {
-  /* stacked: the band padding comes back on the section and the cells lose
-     their divider, tint and bleed */
-  .feature {
-    grid-template-columns: 1fr;
-    gap: 28px;
+  .people {
     padding-top: 48px;
     padding-bottom: 48px;
   }
-  .f-copy {
-    padding: 0;
-    margin: 0;
-    background: none;
+  .pp {
+    grid-template-columns: 1fr 1fr;
+    row-gap: 36px;
+    column-gap: 12px;
+    margin-top: 32px;
   }
-  .feature.rev .f-copy {
-    order: 1;
-    padding: 0;
-    margin: 0;
-    background: none;
+  .pp-fig {
+    cursor: default;
+    gap: 10px;
   }
-  .f-visual,
-  .feature.rev .f-visual {
-    border: none;
-    background: none;
-    margin: 0;
-    padding: 0;
+  /* the longer signs wrap on two lines rather than overflow the column */
+  .pp-tag {
+    font-size: 11px;
+    white-space: normal;
+    text-align: center;
   }
-  .feature.rev .f-visual {
-    order: 2;
+  .pp-fig img {
+    width: 120px;
   }
-}
-
-
-/* ---- candidate card (hiring) : the deliverable, one scored dev ---- */
-.cand-card {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(31, 35, 40, 0.08);
-  overflow: hidden;
-}
-.cand-top {
-  display: flex;
-  align-items: center;
-  gap: 13px;
-  padding: 18px 20px;
-}
-.cand-ava {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: var(--green-soft);
-  border: 1px solid rgba(15, 118, 110, 0.4);
-  color: var(--green);
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.cand-id {
-  min-width: 0;
-}
-.cand-name {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 15.5px;
-  font-weight: 600;
-}
-.cand-badge {
-  font-family: var(--font-mono);
-  font-size: 10.5px;
-  font-weight: 700;
-  color: #ffffff;
-  background: var(--green);
-  border-radius: 99px;
-  padding: 2px 9px;
-  white-space: nowrap;
-}
-.cand-handle {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--text-dim);
-  margin-top: 2px;
-}
-/* a year of commits, static: the proof behind the match score */
-.cand-graph {
-  display: grid;
-  gap: 2.5px;
-  padding: 0 20px 15px;
-}
-.cand-graph i {
-  aspect-ratio: 1;
-  border-radius: 2px;
-  background: rgba(15, 118, 110, 0.08);
-}
-.cand-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--border);
-}
-.cand-stats > div {
-  padding: 11px 8px 12px;
-  text-align: center;
-  font-size: 11.5px;
-  color: var(--text-dim);
-}
-.cand-stats > div + div {
-  border-left: 1px solid var(--border);
-}
-.cand-stats b {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 15.5px;
-  font-weight: 700;
-  color: var(--text);
-}
-.cand-repo {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px 8px;
-  border-top: 1px solid var(--border);
-  padding: 12px 20px;
-  font-size: 12.5px;
-}
-.cand-repo-name {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--blue);
-}
-.cand-sim {
-  margin-left: auto;
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--green);
-  border: 1px solid rgba(15, 118, 110, 0.4);
-  background: var(--green-soft);
-  border-radius: 99px;
-  padding: 1px 8px;
-  white-space: nowrap;
-}
-.cand-repo-desc {
-  width: 100%;
-  color: var(--text-dim);
-}
-.cand-langs {
-  border-top: 1px solid var(--border);
-  padding: 14px 20px 15px;
-}
-.cand-langbar {
-  display: flex;
-  gap: 2px;
-  height: 8px;
-  border-radius: 4px;
-  overflow: hidden;
-}
-.cand-langbar i {
-  height: 100%;
-}
-.cand-langlist {
-  display: flex;
-  gap: 16px;
-  margin-top: 9px;
-  font-size: 11.5px;
-  color: var(--text-dim);
-}
-.cand-langlist span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-/* the telemetry floor, same recipe as the flow cards */
-.cand-foot {
-  border-top: 1px dashed var(--border);
-  padding: 11px 20px;
-  font-family: var(--font-mono);
-  font-size: 11.5px;
-  color: var(--text-dim);
-}
-.cand-foot::before {
-  content: "●";
-  color: var(--green);
-  font-size: 7px;
-  margin-right: 8px;
-  vertical-align: 2px;
-}
-.cand-foot .ok {
-  color: var(--green);
-  font-weight: 700;
-  margin-left: 6px;
-}
-
-/* ---- the fit sheet : the role on the left, the code that proves each
-   line on the right, a dashed leader between them like the machine's ---- */
-.fit-card {
-  width: 100%;
-  max-width: 540px;
-  margin: 0 auto;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  box-shadow: 0 12px 32px rgba(31, 35, 40, 0.08);
-  overflow: hidden;
-  font-family: var(--font-mono);
-}
-.fit-head,
-.fit-row {
-  display: grid;
-  grid-template-columns: 1fr 44px 1fr;
-  align-items: center;
-  column-gap: 10px;
-  padding: 0 20px;
-}
-.fit-head {
-  padding-top: 11px;
-  padding-bottom: 11px;
-  border-bottom: 1px solid var(--border);
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--text-dim);
-}
-.fit-head span:last-child {
-  grid-column: 3;
-}
-.fit-row {
-  padding-top: 13px;
-  padding-bottom: 13px;
-}
-.fit-row + .fit-row {
-  border-top: 1px solid var(--border);
-}
-.fit-req {
-  font-family: var(--font-sans);
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--text);
-}
-/* the leader: a dashed teal line ending on a dot, the proof's side */
-.fit-link {
-  position: relative;
-  height: 1px;
-  border-top: 1.5px dashed rgba(15, 118, 110, 0.55);
-}
-.fit-link::after {
-  content: "";
-  position: absolute;
-  right: -3px;
-  top: -4.5px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--green);
-}
-.fit-proof {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  min-width: 0;
-}
-.fit-proof b {
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--blue);
-  overflow-wrap: anywhere;
-}
-.fit-proof small {
-  font-size: 11px;
-  color: var(--text-dim);
-}
-/* the line only partly covered: amber leader, amber dot */
-.fit-row.part .fit-link {
-  border-top-color: rgba(154, 103, 0, 0.55);
-}
-.fit-row.part .fit-link::after {
-  background: var(--yellow);
-}
-.fit-foot {
-  border-top: 1px dashed var(--border);
-  padding: 11px 20px;
-  font-size: 11.5px;
-  color: var(--text-dim);
-}
-.fit-foot::before {
-  content: "●";
-  color: var(--green);
-  font-size: 7px;
-  margin-right: 8px;
-  vertical-align: 2px;
-}
-@media (max-width: 480px) {
-  /* no room for two columns: the proof sits under its line, the leader
-     becomes a short vertical tick */
-  .fit-head {
-    grid-template-columns: 1fr;
-  }
-  .fit-head span:last-child {
+  .pp-card {
     display: none;
   }
-  .fit-row {
-    grid-template-columns: 1fr;
-    row-gap: 6px;
+  .pp-one.open .pp-fig img {
+    opacity: 1;
+    scale: 1;
   }
-  .fit-link {
-    width: 14px;
-    height: 10px;
-    border-top: none;
-    border-left: 1.5px dashed rgba(15, 118, 110, 0.55);
-    margin-left: 3px;
-  }
-  .fit-link::after {
-    right: auto;
-    left: -4.5px;
-    top: auto;
-    bottom: -3px;
+  .pp-line {
+    display: block;
+    margin-top: 10px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--text-dim);
   }
 }
 
-/* ---- book a demo (hiring) : one line, one button ---- */
-.demo-band {
+/* ---- one hire : three dates in a row, parted by the page's hairline ---- */
+.hire {
+  padding-top: 72px;
+  padding-bottom: 72px;
   text-align: center;
-  padding-top: 56px;
-  padding-bottom: 62px;
 }
-.demo-band h2 {
+.hire h2 {
   font-family: var(--font-serif);
   font-size: var(--h2-size);
   font-weight: 600;
   letter-spacing: -0.015em;
-  margin-bottom: 8px;
 }
-.demo-band p {
-  color: var(--text-dim);
+.hire-days {
+  list-style: none;
+  margin: 40px auto 0;
+  padding: 0;
+  max-width: 1000px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: left;
+}
+.hire-days li {
+  padding: 8px 32px;
+}
+.hire-days li + li {
+  border-left: 1px solid var(--border);
+}
+.hire-days b {
+  display: block;
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 3vw, 36px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--text);
+}
+.hire-days p {
+  margin-top: 8px;
   font-size: 15px;
-  margin-bottom: 26px;
+  line-height: 1.5;
+  color: var(--text-dim);
 }
-.demo-band .btn-try {
-  display: inline-flex;
-  align-items: center;
-  height: 48px;
-  padding: 0 26px;
-  line-height: 1;
+@media (max-width: 800px) {
+  .hire {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+  .hire-days {
+    grid-template-columns: 1fr;
+    margin-top: 24px;
+  }
+  .hire-days li {
+    padding: 20px 4px;
+  }
+  .hire-days li + li {
+    border-left: none;
+    border-top: 1px solid var(--border);
+  }
 }
 
 /* ---- team ---- */
+/* right under the islands: the clouds' pink comes down over the title as
+   one glow, a touch, not a wash (beats `.band > .container`) */
+.band > .container.team {
+  background: radial-gradient(ellipse 70% 55% at 50% 0%, rgba(var(--sky-rgb), 0.42), transparent 70%), var(--bg);
+}
 .team {
-  text-align: center;
+  display: grid;
+  grid-template-columns: minmax(0, 360px) minmax(0, 440px);
+  justify-content: center;
+  align-items: center;
+  column-gap: 72px;
   padding-top: 72px;
-  padding-bottom: 88px;
-  /* teal glow rising from the footer hairline */
-  background: radial-gradient(ellipse 85% 75% at 50% 100%, rgba(15, 118, 110, 0.14), transparent 75%);
+  padding-bottom: 80px;
 }
 .team h2 {
   font-family: var(--font-serif);
   font-size: var(--h2-size);
   font-weight: 600;
   letter-spacing: -0.015em;
-  margin-bottom: 32px;
+}
+.team-lede {
+  margin-top: 12px;
+  font-size: 16px;
+  color: var(--text-dim);
+}
+/* the two of us reviewing code, on an island like the people above,
+   floating the same way */
+.team-pic {
+  display: block;
+  width: 100%;
+  height: auto;
+  animation: pp-float 5.2s ease-in-out infinite;
+  filter: drop-shadow(0 26px 18px rgba(31, 35, 40, 0.13));
+}
+@media (prefers-reduced-motion: reduce) {
+  .team-pic {
+    animation: none;
+  }
+}
+/* beside it, the founder cards become rows: face, name, bio, links */
+.team-side .team-grid {
+  flex-direction: column;
+  gap: 0;
+  margin-top: 28px;
+}
+.team-side .member {
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  column-gap: 16px;
+  align-items: center;
+  padding: 18px 0;
+}
+.team-side .member img {
+  grid-row: 1 / span 3;
+  width: 56px;
+  height: 56px;
+  margin: 0;
+}
+.team-side .member .bio {
+  max-width: none;
+  margin: 2px 0 6px;
+}
+@media (max-width: 800px) {
+  .team {
+    grid-template-columns: minmax(0, 420px);
+    row-gap: 28px;
+    padding-top: 48px;
+    padding-bottom: 56px;
+  }
+  .team-pic {
+    width: 220px;
+    justify-self: center;
+  }
+  .team-side {
+    text-align: center;
+  }
+  .team-side .member {
+    text-align: left;
+  }
 }
 .team-grid {
   display: flex;
@@ -1620,7 +1894,7 @@ main {
   margin: 3px auto 10px;
 }
 .member .links {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 12.5px;
 }
 .member .links a {
@@ -1638,17 +1912,9 @@ main {
     padding-top: 28px;
     padding-bottom: 28px;
   }
-  .how {
-    padding-top: 36px;
-    padding-bottom: 44px;
-  }
-  .how-machine .automation {
-    aspect-ratio: 4 / 3;
-  }
-  /* the pills would pile up on a phone-sized machine; the booths carry
-     their numbers and the steps below say the rest */
-  .automation-label {
-    display: none;
+  .steps {
+    grid-template-columns: minmax(0, 1fr);
+    padding-bottom: 20px;
   }
   .step h3 {
     font-size: 14.5px;
@@ -1685,67 +1951,14 @@ main {
 }
 
 /* ---- final CTA band ---- */
-/* lives in the same band + rail system as every other section: the marching
-   contribution banner, then a bare mono link centered in its own rule cell */
+/* lives in the same band + rail system as every other section: a bare mono
+   link centered in its own rule cell */
 .cta-final {
-  --cta-cell: 16px; /* pricing-patch proportions, banner-sized */
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 0; /* the band's own hairline is the link cell's top rule */
   padding-bottom: 0;
-}
-/* banner and link row break out of the container to the viewport edges: the
-   commits run the full width of the screen and the rules go all the way out */
-.cta-commits {
-  /* Only the inner track is wider than the viewport; its window must not
-     inherit the two grids' intrinsic width as a centered flex item. */
-  width: 100vw;
-  flex: none;
-  overflow: hidden;
-  /* flush between the link cell's bottom rule and the footer's hairline:
-     the pattern fills its whole cell, no leftover strips */
-  margin: 0 calc(50% - 50vw);
-  padding: 16px 0;
-  /* opaque strip: the container rails must not show through the pattern */
-  background: var(--bg);
-}
-.cta-marquee {
-  display: flex;
-  width: max-content;
-  /* barely-there drift: one full copy (~2.7k px) every 8 minutes */
-  animation: cta-scroll 480s linear infinite;
-}
-/* each copy carries the inter-copy gap so -50% lands exactly one copy over */
-.cta-marquee > .cta-commits-grid {
-  margin-right: 5px;
-}
-@keyframes cta-scroll {
-  to {
-    transform: translateX(-50%);
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .cta-marquee {
-    animation: none;
-  }
-}
-.cta-commits-grid {
-  display: grid;
-  gap: 5px;
-  flex-shrink: 0;
-}
-.cta-cell {
-  width: var(--cta-cell);
-  height: var(--cta-cell);
-  border-radius: 3px;
-  background: rgba(15, 118, 110, 0.09); /* faint empty cell keeps the grid readable */
-  transition: background 0.9s ease;
-}
-/* commits flare as they march under the cursor, then cool back down */
-.cta-cell:hover {
-  transition-duration: 0s;
-  background: var(--green) !important;
 }
 /* the link's cell in the page's rule grid: hairline above, verticals on both
    sides, the footer band's own hairline closes it below */
@@ -1754,7 +1967,6 @@ main {
   margin: 0 calc(50% - 50vw);
   display: grid;
   grid-template-columns: 1fr minmax(240px, 460px) 1fr;
-  border-bottom: 1px solid var(--border);
 }
 .cta-row span:first-child {
   border-right: 1px solid var(--border);
@@ -1767,7 +1979,7 @@ main {
   align-items: center;
   justify-content: center;
   padding: 38px 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 15px;
   font-weight: 700;
   color: var(--text);
@@ -1777,18 +1989,6 @@ main {
   color: var(--green);
 }
 @media (max-width: 800px) {
-  .cta-final {
-    --cta-cell: 10px;
-  }
-  .cta-commits-grid {
-    gap: 3px;
-  }
-  .cta-marquee > .cta-commits-grid {
-    margin-right: 3px;
-  }
-  .cta-commits {
-    padding: 12px 0;
-  }
   .cta-link {
     padding: 28px 0;
   }
@@ -1797,7 +1997,7 @@ main {
 /* ---- footer ---- */
 /* the top hairline + crosses come from .band (see section bands) */
 .footer {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 12.5px;
   color: var(--text-dim);
 }
@@ -2197,7 +2397,7 @@ main {
   padding-bottom: 28px;
 }
 .clients-label {
-  font-family: var(--font-mono);
+  font-family: var(--font-ui);
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -2233,31 +2433,18 @@ main {
 }
 
 /* ---- panel tints ---- */
-/* every panel carries a barely-there green wash so the stack reads as a set
-   of cards rather than bare outlines. Four greens from the palette rotate
-   down the page (teal, lime, bright teal, GitHub green), each fading to the
-   page colour so the tint never fights the content. Panels that paint their
-   own cells (features, vs, how-title) keep their stronger tints on top. */
+/* every panel is a slice of the pictures' world: a breath of sky along its
+   top edge, a breath of lawn along its bottom, white between. The same two
+   washes on every panel, at the same strength, so the stack reads as one
+   piece with the hero above it and the islands in its middle (the four
+   rotating greens and the one pink panel were what made the page look
+   like two palettes, 2026-11-03). Panels that paint their own cells
+   (how-title, team) keep theirs on top. */
 .band > .container {
-  /* opaque page colour under the wash: panels sit on top of the dot grid */
-  background: linear-gradient(var(--panel-angle, 160deg), var(--panel-tint, transparent), transparent 72%),
-    var(--bg);
-}
-main > .band:nth-of-type(4n + 1) {
-  --panel-tint: rgba(15, 118, 110, 0.07);
-  --panel-angle: 160deg;
-}
-main > .band:nth-of-type(4n + 2) {
-  --panel-tint: rgba(122, 138, 31, 0.07);
-  --panel-angle: 200deg;
-}
-main > .band:nth-of-type(4n + 3) {
-  --panel-tint: rgba(82, 208, 189, 0.12);
-  --panel-angle: 160deg;
-}
-main > .band:nth-of-type(4n + 4) {
-  --panel-tint: rgba(48, 161, 78, 0.07);
-  --panel-angle: 200deg;
+  /* plain white: Jacques asked that no whole section be coloured
+     (2026-11-03). Colour is the pictures, the hero's sage floor and small
+     touches (the bridge panel's corner), nothing else. */
+  background: var(--bg);
 }
 
 /* Leave editorial sections open; frames emphasize the product examples. */
@@ -2316,8 +2503,7 @@ main > .band:nth-of-type(4n + 4) {
   color: var(--text-dim);
   max-width: 480px;
 }
-/* the cube of cubes: a transparent canvas over the hero's dot grid, fading
-   at the edges */
+/* the arm picking a card, over the hero's dot grid fading at the edges */
 .about-hero-visual {
   position: relative;
 }
@@ -2325,21 +2511,7 @@ main > .band:nth-of-type(4n + 4) {
   content: "";
   position: absolute;
   inset: -6% -4%;
-  background-image: radial-gradient(circle at center, rgba(89, 99, 110, 0.2) 1px, transparent 1.4px);
-  background-size: 24px 24px;
-  mask-image: radial-gradient(ellipse 60% 56% at 50% 50%, #000 40%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 60% 56% at 50% 50%, #000 40%, transparent 100%);
   pointer-events: none;
-}
-.lattice {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 5 / 4;
-}
-.lattice canvas {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
 }
 
 /* the three beats as three columns under a dashed rule */
@@ -2468,10 +2640,6 @@ main > .band:nth-of-type(4n + 4) {
   left: 0;
   right: 0;
   height: 240px;
-  background-image: radial-gradient(circle at center, rgba(89, 99, 110, 0.18) 1px, transparent 1.4px);
-  background-size: 24px 24px;
-  mask-image: linear-gradient(to bottom, #000 45%, transparent);
-  -webkit-mask-image: linear-gradient(to bottom, #000 45%, transparent);
   pointer-events: none;
 }
 .paper-wrap {
@@ -3129,9 +3297,6 @@ a:hover > .headline {
   }
   .about-hero .lede {
     font-size: 16.5px;
-  }
-  .lattice {
-    aspect-ratio: 4 / 3;
   }
   .about-beats,
   .about-foot {
