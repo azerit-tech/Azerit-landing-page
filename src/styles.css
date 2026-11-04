@@ -2257,125 +2257,92 @@ button {
 }
 
 /* ---- about ---- */
-/* the about page leaves the landing's rule grid behind: no panels, no rails,
-   no dots. A hero with the copy beside the isometric machine (three.js, see
-   components/automation), three columns for the three beats, then the
-   founders and the contact side by side. The top bar's hairline above and
-   the footer's below are the only rules on the screen. */
+/* the about page leaves the landing's rule grid behind: no panels, no rails.
+   A letter in one serif column, like the blog's articles, under the picture
+   of the two of us; the founder cards sign it, the contact closes it. The
+   top bar's hairline above and the footer's below are the only rules. */
 .page {
   background: var(--bg);
 }
-.about-hero,
-.about-beats,
-.about-foot {
-  max-width: 1200px;
+.about-letter {
+  max-width: 680px;
   margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding: 48px 24px 96px;
 }
-.about-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 460px);
-  gap: 48px;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 40px;
-  padding-bottom: 16px;
+.about-head {
+  text-align: center;
 }
 /* the two of us reviewing code, on their island, floating like the
    landing's people */
-.about-hero-pic {
+.about-head img {
   display: block;
-  width: 100%;
-  max-width: 460px;
+  width: 300px;
   height: auto;
-  justify-self: end;
+  margin: 0 auto 28px;
   animation: pp-float 6s ease-in-out infinite;
 }
-.about-hero h1 {
+.about-head h1 {
   font-family: var(--font-serif);
-  font-size: clamp(32px, 3.3vw, 42px);
+  font-size: clamp(34px, 4vw, 48px);
   font-weight: 600;
-  letter-spacing: -0.015em;
-  line-height: 1.12;
-  margin: 0 0 20px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0 0 40px;
 }
-.about-hero h1 em {
+.about-head h1 em {
   font-style: italic;
   color: var(--green);
 }
-.about-hero .lede {
-  font-size: 18px;
+.about-body {
+  font-family: var(--font-serif);
+  font-size: 20px;
   line-height: 1.6;
-  color: var(--text-dim);
-  max-width: 480px;
+  color: var(--text);
 }
-
-/* the three beats as three columns under a dashed rule */
-.about-beats {
+.about-body p + p {
+  margin-top: 22px;
+}
+/* the signature: the two founder cards side by side, under a short rule */
+.about-sign {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.about-sign .team-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 40px;
-  margin-top: 24px;
-  padding-top: 40px;
-  padding-bottom: 8px;
-  border-top: 1px dashed var(--border);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
 }
-.beat h2 {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 10px;
-}
-.beat p {
-  font-size: 15.5px;
-  line-height: 1.7;
-  color: var(--text-dim);
-}
-
-/* founders on the left, contact on the right */
-.about-foot {
+.about-sign .member {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 40px;
-  margin-top: 48px;
-  padding-top: 40px;
-  padding-bottom: 96px;
-  border-top: 1px dashed var(--border);
-}
-.about-team h2,
-.about-contact h2 {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  margin: 0 0 18px;
-}
-.about-team .team-grid {
-  flex-direction: column;
-  align-items: stretch;
-  gap: 26px;
-  margin-top: 0;
-}
-.about-team .member {
-  display: grid;
-  grid-template-columns: 84px minmax(0, 1fr);
-  grid-template-rows: auto auto auto;
-  column-gap: 20px;
-  row-gap: 3px;
+  grid-template-columns: 64px minmax(0, 1fr);
+  column-gap: 16px;
+  row-gap: 2px;
   align-items: center;
   text-align: left;
 }
-.about-team .member img {
+.about-sign .member img {
   grid-row: 1 / 4;
-  width: 84px;
-  height: 84px;
+  width: 64px;
+  height: 64px;
   margin: 0;
 }
-.about-team .member .bio {
+.about-sign .member .bio {
   max-width: none;
   margin: 0;
+}
+.about-contact {
+  margin-top: 64px;
+  padding: 32px;
+  border-radius: 16px;
+  background: var(--bg-soft);
+}
+.about-contact h2 {
+  font-family: var(--font-serif);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 8px;
 }
 .about-contact p {
   font-size: 16px;
@@ -3090,37 +3057,24 @@ a:hover > .headline {
   }
 }
 @media (max-width: 800px) {
-  .about-hero {
+  .about-letter {
+    padding: 32px 18px 64px;
+  }
+  .about-head img {
+    width: 240px;
+  }
+  .about-head h1 {
+    margin-bottom: 28px;
+  }
+  .about-body {
+    font-size: 18.5px;
+  }
+  .about-sign .team-grid {
     grid-template-columns: minmax(0, 1fr);
-    gap: 20px;
-    padding-top: 36px;
-    padding-left: 18px;
-    padding-right: 18px;
   }
-  .about-hero h1 {
-    font-size: 28px;
-  }
-  .about-hero .lede {
-    font-size: 16.5px;
-  }
-  .about-hero-pic {
-    max-width: 280px;
-    justify-self: center;
-  }
-  .about-beats,
-  .about-foot {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 28px;
-    padding-left: 18px;
-    padding-right: 18px;
-  }
-  .about-beats {
-    padding-top: 28px;
-  }
-  .about-foot {
-    margin-top: 36px;
-    padding-top: 28px;
-    padding-bottom: 64px;
+  .about-contact {
+    margin-top: 48px;
+    padding: 24px;
   }
   .paper-wrap {
     padding: 0 18px 56px;

@@ -32,7 +32,7 @@ export const PAGES = {
   },
   "/about": {
     title: "About · Azerit",
-    desc: "Better engineers, faster, proven by their code. Azerit is two engineers from Centrale who read GitHub instead of CVs: the search is automated, the judgement is theirs.",
+    desc: "Azerit is two engineers from Centrale who read an engineer's code before writing to them. Software does the searching; deciding who fits your role stays with us.",
   },
 } as const;
 
