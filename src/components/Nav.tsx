@@ -2,11 +2,13 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import { LogoMark } from "./Logo";
 import { Email } from "./Email";
 
-export function TopBar() {
+// `sky` (the landing): a thin frosted-glass bar laid over the hero picture,
+// Apple-style, so bar and picture read as one.
+export function TopBar({ sky = false }: { sky?: boolean }) {
   // on the French blog, "blog" stays on the French front page
   const blog = useLocation().pathname.startsWith("/fr/blog") ? "/fr/blog/" : "/blog/";
   return (
-    <div className="topbar">
+    <div className={sky ? "topbar topbar-sky" : "topbar"}>
       <div className="topbar-inner">
         <Link to="/" className="logo">
           <LogoMark size={18} /> azerit
