@@ -9,9 +9,10 @@ import { People } from "../components/People";
 
 // Why hire through us: three columns of the bridge panel, one promise each, in plain sentences (labels and
 // "X, not Y" lines read as a template, 2026-11-04). Where we look and what we read are shown for real further down, so
-// only what the two proof panels don't say lives here.
+// only what the two proof panels don't say lives here. "Already interested in your role" was cut (2026-11-04): any
+// agency can say it, and step 4 already shows the outreach.
 const WHY = [
-  { lead: "We send you one engineer.", text: "Already interested in your role. If it isn't them, we keep looking." },
+  { lead: "We send you one engineer.", text: "If it isn't them, we keep looking." },
   { lead: "We've done the job.", text: "Shipped products, reviewed pull requests, run technical interviews." },
   { lead: "You pay when you hire.", text: "One fee, set on the first call from the role.", href: "/pricing", more: "how the fee works" },
 ];
@@ -23,7 +24,7 @@ const WHY = [
 const STEPS = [
   { short: "find", title: "Find them on GitHub", text: "The developers who already build what you're hiring for." },
   { short: "read code", title: "Read their code", text: "Commits, pull requests and reviews." },
-  { short: "match", title: "Keep the one who fits", text: "The one whose work matches the role, skill by skill." },
+  { short: "match", title: "Match them to the role", text: "Their work against what you're hiring for, skill by skill." },
   { short: "reach out", title: "Reach out about their work", text: "The kind of message engineers answer." },
 ];
 
@@ -131,25 +132,22 @@ export function Landing() {
       <Seam />
 
       {/* the kinds of engineers we find, as people of the hero's world
-          (People): the role gets one of them */}
+          (People). No lede: "already interested in your role" was tried and
+          dropped, every agency can say it (2026-11-04) */}
       <section className="band">
         <div className="container people">
-          <h2>You get the one who fits your role</h2>
-          <p className="people-lede">One per role. These are the kinds we find.</p>
+          <h2>The kinds of engineers we find</h2>
           <People />
         </div>
       </section>
 
       <Seam />
 
-      {/* how it works: a hire, from the code up */}
+      {/* how it works: a hire, from the code up. No lede: the Auditoo
+          timeline below tells the days (2026-11-04) */}
       <section className="band band-head how-head">
         <div className="container how-title">
           <h2>How it works</h2>
-          <p className="how-lede">
-            Days from your brief to the first intro, not weeks. One call to brief us, one with
-            the engineer, and we stay until signature.
-          </p>
         </div>
       </section>
       <section className="band how-band">
@@ -179,7 +177,8 @@ export function Landing() {
         </div>
       </section>
 
-      {/* team — framed like every other panel so the rails stay unbroken */}
+      {/* team — framed like every other panel so the rails stay unbroken.
+          No "engineers read" title here: the bridge panel says it (2026-11-04) */}
       <section className="band">
         <div className="container team">
           {/* the two of us in the voxel world, reviewing code together, on
@@ -193,8 +192,7 @@ export function Landing() {
             loading="lazy"
           />
           <div className="team-side">
-            <h2>Two engineers read every candidate</h2>
-            <p className="team-lede">One of us reads their work and signs off on the one we send you.</p>
+            <h2>Who we are</h2>
             <Founders />
           </div>
         </div>

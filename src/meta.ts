@@ -7,11 +7,11 @@ import { useEffect } from "react";
 
 export const SITE_URL = "https://www.azerit.tech";
 
-export const HOME_TITLE = "Azerit · Recruit Engineers from GitHub with AI";
+export const HOME_TITLE = "Azerit · Engineer Recruiting from GitHub";
 
 export const PAGES = {
   "/try": {
-    title: "Try Azerit on Your Role · Recruit Engineers from GitHub",
+    title: "Try Azerit on Your Role · Engineer Recruiting from GitHub",
     desc: "Tell us the role you're hiring for. We search GitHub for the engineer who has already built it, read their code, reach out, and send you the one who fits. No fee until you hire.",
   },
   "/legal": {
