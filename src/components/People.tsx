@@ -8,7 +8,9 @@ import { useState, type ReactNode } from "react";
 // proof as it looks and one line on why it matters. On phones the line sits
 // under each figure instead. Names, numbers and repos are made up; Datadog
 // is real, a name buyers know (it replaced "maintains a 10k★ repo", which
-// said little, 2026-11-04).
+// said little, 2026-11-04). Beside a proof, only a real mark (public/proofs:
+// IOI's from Wikimedia, public domain; Datadog's from Simple Icons, in its
+// purple): drawn monograms and a drawn medal looked fake (2026-11-05).
 
 type Person = { id: string; tag: string; alt: string; line: string; proof: ReactNode };
 
@@ -26,12 +28,11 @@ const PEOPLE: Person[] = [
     line: "Has built a product from nothing: ships, picks what matters, talks to users.",
     proof: (
       <div className="pp-co">
-        <span className="pp-logo">K</span>
         <span>
           <b>Kova</b>
           <small>founder & CTO · 2019–2024</small>
+          <em>acquired</em>
         </span>
-        <em>acquired</em>
       </div>
     ),
   },
@@ -42,7 +43,7 @@ const PEOPLE: Person[] = [
     line: "Solves hard problems fast and knows the algorithms cold.",
     proof: (
       <div className="pp-rank">
-        <span className="pp-medal" />
+        <img className="pp-mark pp-mark-ioi" src="/proofs/ioi.png" alt="IOI" width={44} height={24} />
         <span>
           <b>IOI · gold</b>
           <small>rank 7 of 342</small>
@@ -73,12 +74,12 @@ const PEOPLE: Person[] = [
     line: "Joined early and grew with the company: knows what breaks at scale.",
     proof: (
       <div className="pp-co">
-        <span className="pp-logo pp-logo-dd">D</span>
+        <img className="pp-mark" src="/proofs/datadog.svg" alt="" width={30} height={30} />
         <span>
           <b>Datadog</b>
           <small>engineer #12 · 2011–2017</small>
+          <em>20 → 1,000 people</em>
         </span>
-        <em>20 → 1,000 people</em>
       </div>
     ),
   },

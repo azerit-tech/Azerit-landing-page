@@ -39,11 +39,12 @@ const HIRE = [
 
 // Local brand assets. Aurel source: https://www.agilitesolutions.com/projects/a-multi-purpose-space-for-aurel-bgc/
 // Iterate, RAGLogic and Auditoo marks come from https://iterate.inc/, https://www.raglogic.com/ and https://www.auditoo.eco/.
+// Auditoo's tile points down to its hire, like Clay's case-study tiles.
 const CLIENTS = [
   { name: "Aurel BGC", logo: "/clients/aurel-bgc.png", id: "aurel", width: 140, height: 50, wordmark: true },
   { name: "Iterate.inc", logo: "/clients/iterate.png", id: "iterate", width: 48, height: 21, wordmark: false },
   { name: "RAGLogic", logo: "/clients/raglogic.svg", id: "raglogic", width: 32, height: 32, wordmark: false },
-  { name: "Auditoo", logo: "/clients/auditoo.svg", id: "auditoo", width: 103, height: 23, wordmark: true },
+  { name: "Auditoo", logo: "/clients/auditoo.svg", id: "auditoo", width: 103, height: 23, wordmark: true, href: "#hire" },
 ];
 
 export function Landing() {
@@ -80,17 +81,35 @@ export function Landing() {
       </header>
       {/* the bridge: one rounded panel set half on the hero's sage, which
           melts into the page's white behind it. A bento, Clay-style: the
-          clients and what we promise in the same tiles */}
+          clients and what we promise in tiles of mixed widths, the wall
+          running on past the panel's edges in empty tiles that fade out
+          (we have four clients, the edges never pretend to more) */}
       <section className="bridge">
         <div className="bridge-panel">
           <h2>Engineers, found by engineers.</h2>
           <div className="bento">
-            {CLIENTS.map((client) => (
-              <div key={client.id} className={`bento-tile bento-logo client-${client.id}`}>
-                <img src={client.logo} alt={client.wordmark ? client.name : ""} width={client.width} height={client.height} />
-                {!client.wordmark && <span>{client.name}</span>}
-              </div>
+            {[1, 2, 3, 4].map((n) => (
+              <div key={n} className={`bento-tile bento-ghost ghost-${n}`} aria-hidden />
             ))}
+            {CLIENTS.map((client) => {
+              const mark = (
+                <>
+                  <img src={client.logo} alt={client.wordmark ? client.name : ""} width={client.width} height={client.height} />
+                  {!client.wordmark && <span>{client.name}</span>}
+                </>
+              );
+              const className = `bento-tile bento-logo client-${client.id}`;
+              return client.href ? (
+                <a key={client.id} href={client.href} className={className}>
+                  {mark}
+                  <span className="bento-arrow" aria-hidden>↗</span>
+                </a>
+              ) : (
+                <div key={client.id} className={className}>
+                  {mark}
+                </div>
+              );
+            })}
             {WHY.map((cell, i) => (
               <div key={cell.lead} className={`bento-tile bento-why why-${i}`}>
                 <b>{cell.lead}</b>
@@ -163,7 +182,7 @@ export function Landing() {
 
       {/* one hire, start to finish: words and dates only, the break
           between the two sections of figures */}
-      <section className="band">
+      <section className="band" id="hire">
         <div className="container hire">
           <h2>A hire at Auditoo</h2>
           <ol className="hire-days">
