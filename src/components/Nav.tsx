@@ -18,16 +18,16 @@ export function TopBar({ sky = false }: { sky?: boolean }) {
             to={blog}
             className={({ isActive }) => `nav-link nav-secondary${isActive ? " active" : ""}`}
           >
-            blog
+            Blog
           </NavLink>
           <NavLink
             to="/about"
             className={({ isActive }) => `nav-link nav-secondary${isActive ? " active" : ""}`}
           >
-            about
+            About
           </NavLink>
           <Link to="/try" className="try-link">
-            find my engineer
+            Find My Engineer
           </Link>
         </div>
       </div>
