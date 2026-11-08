@@ -72,9 +72,9 @@ export function Landing() {
             </p>
             <div className="hero-cta">
               <Link to="/try" className="btn-hero">
-                find my engineer
+                Find My Engineer
               </Link>
-              <DemoLink className="btn-hero-outline">talk to us</DemoLink>
+              <DemoLink className="btn-hero-outline">Talk to Us</DemoLink>
             </div>
           </div>
         </div>

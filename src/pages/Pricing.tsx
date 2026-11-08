@@ -54,7 +54,7 @@ export function Pricing() {
 
               <div className="price-cta">
                 <Link to="/try" className="btn-try" style={{ display: "block", textAlign: "center" }}>
-                  Find my engineer
+                  Find My Engineer
                 </Link>
                 <p className="price-nocard">
                   Or <DemoLink className="demo-link">book 30 minutes</DemoLink> and we'll quote

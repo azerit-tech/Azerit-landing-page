@@ -92,7 +92,7 @@ export const UI = {
     boxTitle: "Find the engineers who have already built it",
     boxText:
       "Azerit reads GitHub for the developers who have shipped what you're hiring for, and sends you the one who fits: skills proven by their code, a verified email, and a first message written about their own work.",
-    ctaTry: "Find my engineer",
+    ctaTry: "Find My Engineer",
     ctaDemo: "book a call",
     switchLabel: "Language",
   },

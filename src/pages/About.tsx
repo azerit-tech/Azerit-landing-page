@@ -62,7 +62,7 @@ export function About() {
             <h2>Talk to us</h2>
             <p>An open role you'd like us to try, a question, a partnership.</p>
             <div className="page-cta-row">
-              <DemoLink className="btn-try">book a call</DemoLink>
+              <DemoLink className="btn-try">Book a Call</DemoLink>
               <Email user="jacques" domain="azerit.tech" className="demo-link">
                 or email us
               </Email>

@@ -35,7 +35,7 @@ export function Try() {
               to go through the role with you.
             </p>
             <Link to="/" className="btn-ghost" style={{ display: "inline-block", marginTop: 20 }}>
-              back
+              Back
             </Link>
           </div>
         ) : (
@@ -75,7 +75,7 @@ export function Try() {
                 style={{ width: "100%" }}
                 disabled={submitting}
               >
-                {submitting ? "sending your request…" : "Find my engineer"}
+                {submitting ? "Sending Your Request…" : "Find My Engineer"}
               </button>
             </form>
           </div>

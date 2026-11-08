@@ -30,7 +30,7 @@ export function Admin() {
             </p>
           </div>
           <button className="btn-ghost" onClick={exportCsv} disabled={leads.length === 0}>
-            export csv
+            Export CSV
           </button>
         </div>
 

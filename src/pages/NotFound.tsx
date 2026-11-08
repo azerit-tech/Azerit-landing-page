@@ -20,10 +20,10 @@ export function NotFound() {
           </p>
           <p style={{ marginTop: 20 }}>
             <Link to="/" className="btn-ghost" style={{ display: "inline-block", marginRight: 12 }}>
-              back home
+              Back Home
             </Link>
             <Link to="/try" className="btn-try" style={{ display: "inline-block" }}>
-              Find my candidates
+              Find My Candidates
             </Link>
           </p>
         </div>
