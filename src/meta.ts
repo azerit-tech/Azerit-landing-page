@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 export const SITE_URL = "https://www.azerit.tech";
 
-export const HOME_TITLE = "Azerit · Engineer Recruiting from GitHub";
+export const HOME_TITLE = "Azerit · We Find the Engineer Your Company Needs";
 
 export const PAGES = {
   "/try": {
